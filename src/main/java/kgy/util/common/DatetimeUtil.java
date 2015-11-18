@@ -27,14 +27,18 @@ public class DatetimeUtil {
         if (Locale.ENGLISH.equals(locale) && pattern.contains("ddd")) {
             String dayOfMonthStr;
             int dayOfMonth = get(date, Calendar.DAY_OF_MONTH);
-            if (1 == dayOfMonth % 10) {
-                dayOfMonthStr = dayOfMonth + "st";
-            } else if (2 == dayOfMonth % 10) {
-                dayOfMonthStr = dayOfMonth + "nd";
-            } else if (3 == dayOfMonth % 10) {
-                dayOfMonthStr = dayOfMonth + "rd";
-            } else {
-                dayOfMonthStr = dayOfMonth + "th";
+            switch (dayOfMonth % 10) {
+                case 1:
+                    dayOfMonthStr = dayOfMonth + "st";
+                    break;
+                case 2:
+                    dayOfMonthStr = dayOfMonth + "nd";
+                    break;
+                case 3:
+                    dayOfMonthStr = dayOfMonth + "rd";
+                    break;
+                default:
+                    dayOfMonthStr = dayOfMonth + "th";
             }
             pattern = pattern.replaceAll("ddd", "'ddd'").replaceAll("''", "");
             return new SimpleDateFormat(pattern, locale).format(date).replaceAll("ddd", dayOfMonthStr);

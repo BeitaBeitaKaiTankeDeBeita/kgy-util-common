@@ -20,7 +20,7 @@ public class DebugUtil {
                 + "       /  \\__/  \\__/  \\__/  \\   o`.\n"
                 + "   `==/\\__/__\\__/__\\__/__\\__/\\`'--'\n"
                 + "      ~/__/__/^^^^^^^^\\__\\__\\~\n"
-                + "调试:\t" + (null == cls ? "" : (" (" + cls.getName() + (lineNum < 0 ? "" : (":" + lineNum)) + ")")) + "\n"
+                + "调试:\t" + (null == cls ? "" : ("(" + cls.getName() + (lineNum < 0 ? "" : (":" + lineNum)) + ")")) + "\n"
                 + "\t" + DatetimeUtil.format(new Date()) + "\t" + context + "\n");
     }
 
@@ -30,8 +30,7 @@ public class DebugUtil {
 
     public static void print(String context) {
         System.out.print("\n"
-                + "调试:\t"
-                + "\t" + DatetimeUtil.format(new Date()) + "\t" + context + "\n");
+                + "调试:\t" + DatetimeUtil.format(new Date()) + "\t" + context + "\n");
     }
 
     public static void print(Object context) {

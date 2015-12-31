@@ -9,9 +9,7 @@ import java.util.Date;
 /**
  * 随机工具类
  *
- * @author Kistory管音鹏
- * @version 1.1
- * @build 2015-10-21 15:32:23
+ * @author Kistory
  */
 public class RandomUtil {
 
@@ -23,6 +21,17 @@ public class RandomUtil {
      * @return
      */
     public static int randomInt(int min, int max) {
+        return new BigDecimal(min - 1 + (max - min + 1) * Math.random()).setScale(0, RoundingMode.CEILING).intValue();
+    }
+
+    /**
+     * 随机整数
+     *
+     * @param min
+     * @param max
+     * @return
+     */
+    public static int randomInt(double min, double max) {
         return new BigDecimal(min - 1 + (max - min + 1) * Math.random()).setScale(0, RoundingMode.CEILING).intValue();
     }
 

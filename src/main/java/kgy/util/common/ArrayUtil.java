@@ -9,11 +9,33 @@ import java.util.Set;
 /**
  * 数组工具类
  *
- * @author Kistory管音鹏
- * @version 1.0.1
- * @build 2015-11-2 16:06:48
+ * @author Kistory
+ * @version 1.1.0
  */
 public class ArrayUtil {
+
+    public static Double[] toDoubleArray(String[] strs) {
+        Double[] dbls = new Double[strs.length];
+        for (int i = 0; i < strs.length; i++) {
+            dbls[i] = Double.parseDouble(strs[i].trim());
+        }
+        return dbls;
+    }
+
+    public static Double[] toDoubleArray(String str) {
+        if (null != str && !str.isEmpty()) {
+            if (str.contains(",")) {
+                return toDoubleArray(str.split(","));
+            } else if (str.contains("{")) {
+                return toDoubleArray(str.substring(1, str.length() - 1).split("\\}\\{"));
+            } else {
+                return new Double[]{
+                    Double.parseDouble(str)
+                };
+            }
+        }
+        return new Double[0];
+    }
 
     public static Integer[] toIntegerArray(String[] strs) {
         Integer[] ints = new Integer[strs.length];

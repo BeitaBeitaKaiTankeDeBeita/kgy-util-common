@@ -9,9 +9,9 @@ import java.util.Locale;
 /**
  * 日期时间工具类
  *
- * @author Kistory管音鹏
+ * @author Kistory
  * @version 1.3
- * @build 2015-10-28 12:55:27
+ * @build 2016-3-25 11:21:12
  */
 public class DatetimeUtil {
 
@@ -328,6 +328,14 @@ public class DatetimeUtil {
             default:
                 return null;
         }
+    }
+
+    public static int getAgeByBirthdate(Date birthdate, Date now) {
+        int age = get(now, Calendar.YEAR) - get(birthdate, Calendar.YEAR);
+        if (get(now, Calendar.MONTH) < get(birthdate, Calendar.MONTH) || (get(now, Calendar.DAY_OF_MONTH) < get(birthdate, Calendar.DAY_OF_MONTH))) {
+            age--;
+        }
+        return age;
     }
 
     private DatetimeUtil() {

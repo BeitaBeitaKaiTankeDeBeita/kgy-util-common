@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.logging.Logger;
 
 /**
  * 日期时间工具类
@@ -18,6 +19,8 @@ public class DatetimeUtil {
   public static final String ZH_CN = "zh-CN";
   public static final String QUARTER_OF_YEAR = "QUARTER_OF_YEAR";
   public static final String MONTH_OF_YEAR = "MONTH_OF_YEAR";
+
+  private static final Logger LOG = Logger.getLogger(DatetimeUtil.class.getName());
 
   public static String format(Date date, String pattern) {
     return new SimpleDateFormat(pattern).format(date);
@@ -330,6 +333,24 @@ public class DatetimeUtil {
     }
   }
 
+  /**
+   *
+   * @param year
+   * @param weekOfYear
+   * @param firstDayOfWeek
+   * @param dayOfWeek
+   * @return
+   * @deprecated
+   */
+  public static Date get(int year, int weekOfYear, int firstDayOfWeek, int dayOfWeek) {
+    Calendar calendar = Calendar.getInstance();
+    calendar.setFirstDayOfWeek(firstDayOfWeek);
+    calendar.set(Calendar.YEAR, year);
+    calendar.set(Calendar.WEEK_OF_YEAR, weekOfYear);
+    calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
+    return calendar.getTime();
+  }
+
   public static int getAgeByBirthdate(Date birthdate, Date now) {
     int age = get(now, Calendar.YEAR) - get(birthdate, Calendar.YEAR);
     if (get(now, Calendar.MONTH) < get(birthdate, Calendar.MONTH)) {
@@ -342,4 +363,5 @@ public class DatetimeUtil {
 
   private DatetimeUtil() {
   }
+
 }

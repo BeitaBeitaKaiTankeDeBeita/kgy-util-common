@@ -253,12 +253,21 @@ public class RandomUtil {
   }
 
   /**
+   * 随机名
+   *
+   * @return
+   */
+  public static String randomMing() {
+    return randomCJKUnifiedIdeographs(randomInt(1, 2));
+  }
+
+  /**
    * 随机姓名
    *
    * @return
    */
   public static String randomXingming() {
-    return randomXing() + randomCJKUnifiedIdeographs(randomInt(1, 2));
+    return randomXing() + randomMing();
   }
 
   /**

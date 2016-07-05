@@ -11,8 +11,8 @@ import java.util.logging.Logger;
  * 日期时间工具类
  *
  * @author Kistory
- * @version 1.3
- * @build 2016-3-25 11:21:12
+ * @version 1.4
+ * @build 2016-07-05 16:52:29
  */
 public class DatetimeUtil {
 
@@ -349,6 +349,10 @@ public class DatetimeUtil {
     calendar.set(Calendar.WEEK_OF_YEAR, weekOfYear);
     calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
     return calendar.getTime();
+  }
+
+  public static long time() {
+    return new Date().getTime();
   }
 
   public static int getAgeByBirthdate(Date birthdate, Date now) {

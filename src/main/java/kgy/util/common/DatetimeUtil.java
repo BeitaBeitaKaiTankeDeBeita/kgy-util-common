@@ -214,6 +214,8 @@ public class DatetimeUtil {
     switch (field) {
       case Calendar.DAY_OF_MONTH:
         return difference / 86400000;
+      case Calendar.MINUTE:
+        return difference / 60000;
       case Calendar.SECOND:
         return difference / 1000;
       default:

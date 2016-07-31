@@ -213,13 +213,13 @@ public class DatetimeUtil {
 
     switch (field) {
       case Calendar.DAY_OF_MONTH:
-        return difference / 86400000;
+        return difference / 86400000d;
       case Calendar.MINUTE:
-        return difference / 60000;
+        return difference / 60000d;
       case Calendar.SECOND:
-        return difference / 1000;
+        return difference / 1000d;
       default:
-        return 0;
+        return 0d;
     }
   }
 

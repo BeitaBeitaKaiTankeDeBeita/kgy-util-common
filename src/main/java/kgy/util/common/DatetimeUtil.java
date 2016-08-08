@@ -367,6 +367,14 @@ public class DatetimeUtil {
     return age;
   }
 
+  public static Date getMinBirthdateByAge(int age, Date now) {
+    return ignoreTime(add(add(now, Calendar.YEAR, -age - 1), Calendar.DAY_OF_YEAR, 1));
+  }
+
+  public static Date getMaxBirthdateByAge(int age, Date now) {
+    return ignoreTime(add(now, Calendar.YEAR, -age));
+  }
+
   private DatetimeUtil() {
   }
 

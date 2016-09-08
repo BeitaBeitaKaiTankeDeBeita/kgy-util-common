@@ -1,5 +1,6 @@
 package kgy.util.common;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -221,6 +222,10 @@ public class DatetimeUtil {
       default:
         return 0d;
     }
+  }
+
+  public static double difference(Date date0, Date date1, int field, int scale) {
+    return new BigDecimal(difference(date0, date1, field)).setScale(scale, BigDecimal.ROUND_HALF_UP).doubleValue();
   }
 
   public static Date ignoreTime(Date date) {

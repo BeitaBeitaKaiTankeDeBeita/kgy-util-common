@@ -2082,7 +2082,7 @@ public class FileUtil {
   }
 
   /**
-   * @param name - the system-dependent file name.
+   * @param name the system-dependent file name
    * @return
    * @throws IOException
    */

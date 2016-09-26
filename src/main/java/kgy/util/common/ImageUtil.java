@@ -12,7 +12,9 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.logging.Logger;
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -31,12 +33,12 @@ public class ImageUtil extends FileUtil {
   private static final Logger LOG = Logger.getLogger(ImageUtil.class.getName());
 
   /**
-   * @param name - the system-dependent file name
-   * @return
+   * @param input a File to read from
+   * @return a BufferedImage containing the decoded contents of the input, or null
    */
-  public static BufferedImage toBufferedImage(String name) {
+  public static BufferedImage toBufferedImage(InputStream input) {
     try {
-      return ImageIO.read(new FileInputStream(name));
+      return ImageIO.read(input);
     } catch (IOException ioe) {
       LOG.warning(ioe.toString());
 
@@ -106,18 +108,18 @@ public class ImageUtil extends FileUtil {
   }
 
   /**
-   * @param name
-   * @param newWidth
-   * @param newHeight
-   * @param formatName - a String containing the informal name of the format
+   * @param input      a File to read from
+   * @param newWidth   new width of the created image
+   * @param newHeight  new height of the created image
+   * @param formatName a String containing the informal name of the format
    * @return
-   * @throws IOException - if an error occurs during writing
+   * @throws IOException if an error occurs during writing
    */
-  public static byte[] toBytes(String name, int newWidth, int newHeight, String formatName) throws IOException {
+  public static byte[] toBytes(InputStream input, int newWidth, int newHeight, String formatName) throws IOException {
     try (ByteArrayOutputStream output = new ByteArrayOutputStream()) {
       BufferedImage im = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
       Graphics graphics = im.createGraphics();
-      graphics.drawImage(toBufferedImage(name), 0, 0, newWidth, newHeight, null);
+      graphics.drawImage(toBufferedImage(input), 0, 0, newWidth, newHeight, null);
       ImageIO.write(im, formatName, output);
 
       return output.toByteArray();

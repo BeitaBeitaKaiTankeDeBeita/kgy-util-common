@@ -13,7 +13,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.logging.Logger;
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -25,7 +24,7 @@ import javax.imageio.ImageWriter;
  *
  * @author Kistory管音鹏
  * @version 1.3
- * @build 2016-09-24 11:47:28
+ * @build 2016-09-26 09:18:54
  */
 public class ImageUtil {
 
@@ -120,8 +119,5 @@ public class ImageUtil {
 
   public static byte[] toBytes(String name) throws IOException {
     return FileUtil.fileToBytes(name);
-  }
-
-  private ImageUtil() {
   }
 }

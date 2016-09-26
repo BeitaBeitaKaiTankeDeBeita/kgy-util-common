@@ -115,11 +115,10 @@ public class ImageUtil extends FileUtil {
    */
   public static byte[] toBytes(String name, int newWidth, int newHeight, String formatName) throws IOException {
     try (ByteArrayOutputStream output = new ByteArrayOutputStream()) {
-      BufferedImage originIm = toBufferedImage(name);
-      BufferedImage newIm = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
-      Graphics graphics = newIm.createGraphics();
-      graphics.drawImage(originIm, 0, 0, newWidth, newHeight, null);
-      ImageIO.write(newIm, formatName, output);
+      BufferedImage im = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
+      Graphics graphics = im.createGraphics();
+      graphics.drawImage(toBufferedImage(name), 0, 0, newWidth, newHeight, null);
+      ImageIO.write(im, formatName, output);
 
       return output.toByteArray();
     }

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -2076,7 +2077,7 @@ public class FileUtil {
       case "zmm":
         return "application/vnd.handheld-entertainment+xml";
       default:
-        LOG.warning("未知的 extension：" + extension + "！");
+        LOG.log(Level.WARNING, "\u672a\u77e5\u7684 extension: {0}!", extension); // 未知的 extension: {0}!
         return "";
     }
   }

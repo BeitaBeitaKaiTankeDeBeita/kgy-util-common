@@ -26,10 +26,14 @@ import javax.imageio.ImageWriter;
  * @version 1.3
  * @build 2016-09-26 09:18:54
  */
-public class ImageUtil {
+public class ImageUtil extends FileUtil {
 
   private static final Logger LOG = Logger.getLogger(ImageUtil.class.getName());
 
+  /**
+   * @param name - the system-dependent file name
+   * @return
+   */
   public static BufferedImage toBufferedImage(String name) {
     try {
       return ImageIO.read(new FileInputStream(name));
@@ -101,23 +105,23 @@ public class ImageUtil {
     return bufferedImage;
   }
 
-  public static byte[] toBytes(String name, int newWidth, int newHeight, String format) throws IOException {
-    try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-      BufferedImage img = toBufferedImage(name);
-      Graphics graphics = img.createGraphics();
-      graphics.drawImage(img, 0, 0, newWidth, newHeight, null);
-      ImageIO.write(img, format, out);
-      out.flush();
+  /**
+   * @param name
+   * @param newWidth
+   * @param newHeight
+   * @param formatName - a String containing the informal name of the format
+   * @return
+   * @throws IOException - if an error occurs during writing
+   */
+  public static byte[] toBytes(String name, int newWidth, int newHeight, String formatName) throws IOException {
+    try (ByteArrayOutputStream output = new ByteArrayOutputStream()) {
+      BufferedImage originIm = toBufferedImage(name);
+      BufferedImage newIm = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
+      Graphics graphics = newIm.createGraphics();
+      graphics.drawImage(originIm, 0, 0, newWidth, newHeight, null);
+      ImageIO.write(newIm, formatName, output);
 
-      return out.toByteArray();
+      return output.toByteArray();
     }
-  }
-
-  public static byte[] toBytes(String name, int newWidth, int newHeight) throws IOException {
-    return toBytes(name, newWidth, newHeight, name.split("\\.", 2)[1]);
-  }
-
-  public static byte[] toBytes(String name) throws IOException {
-    return FileUtil.fileToBytes(name);
   }
 }

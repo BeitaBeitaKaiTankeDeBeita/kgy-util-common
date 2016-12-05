@@ -133,7 +133,7 @@ public class ArrayUtil {
   }
 
   /**
-   * ∩
+   * ∩ (String<{}{}>)
    *
    * @param str
    * @param str1
@@ -141,18 +141,18 @@ public class ArrayUtil {
    * @deprecated
    */
   public static String intersection(String str, String str1) {
-    String r = "";
-    for (String s2 : str.substring(1, str.length() - 1).split("\\}\\{")) {
-      s2 = "{" + s2 + "}";
-      if (!r.contains(s2)) {
-        if (!str1.contains(s2)) {
-          r = r.replace(s2, "");
+    String result = "";
+    for (String str2 : str.substring(1, str.length() - 1).split("\\}\\{")) {
+      str2 = "{" + str2 + "}";
+      if (!result.contains(str2)) {
+        if (!str1.contains(str2)) {
+          result = result.replace(str2, "");
         } else {
-          r += s2;
+          result += str2;
         }
       }
     }
-    return r;
+    return result;
   }
 
   private ArrayUtil() {

@@ -12,8 +12,6 @@ import java.util.logging.Logger;
  * 日期时间工具类
  *
  * @author Kistory
- * @version 1.4
- * @build 2016-07-05 16:52:29
  */
 public class DatetimeUtil {
 
@@ -160,6 +158,19 @@ public class DatetimeUtil {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(date);
     calendar.set(field, value);
+    return calendar.getTime();
+  }
+
+  public static Date setTime(Date date, String source, String pattern) {
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(date);
+
+    Date time = parse(source, pattern);
+    calendar.set(Calendar.HOUR_OF_DAY, get(time, Calendar.HOUR_OF_DAY));
+    calendar.set(Calendar.MINUTE, get(time, Calendar.MINUTE));
+    calendar.set(Calendar.SECOND, get(time, Calendar.SECOND));
+    calendar.set(Calendar.MILLISECOND, 0);
+
     return calendar.getTime();
   }
 
@@ -382,5 +393,4 @@ public class DatetimeUtil {
 
   private DatetimeUtil() {
   }
-
 }

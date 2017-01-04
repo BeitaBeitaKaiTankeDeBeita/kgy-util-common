@@ -154,11 +154,17 @@ public class DatetimeUtil {
     }
   }
 
-  public static Date set(Date date, int... fieldOrvalue) {
+  public static int getActualMaximum(Date date, int field) {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(date);
-    for (int i = 0; i < fieldOrvalue.length / 2; i++) {
-      calendar.set(fieldOrvalue[i * 2], fieldOrvalue[i * 2 + 1]);
+    return calendar.getActualMaximum(field);
+  }
+
+  public static Date set(Date date, int... fieldOrValue) {
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(date);
+    for (int i = 0; i < fieldOrValue.length / 2; i++) {
+      calendar.set(fieldOrValue[i * 2], fieldOrValue[i * 2 + 1]);
     }
     return calendar.getTime();
   }

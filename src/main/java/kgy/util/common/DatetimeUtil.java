@@ -154,10 +154,12 @@ public class DatetimeUtil {
     }
   }
 
-  public static Date set(Date date, int field, int value) {
+  public static Date set(Date date, int... fieldOrvalue) {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(date);
-    calendar.set(field, value);
+    for (int i = 0; i < fieldOrvalue.length / 2; i++) {
+      calendar.set(fieldOrvalue[i * 2], fieldOrvalue[i * 2 + 1]);
+    }
     return calendar.getTime();
   }
 

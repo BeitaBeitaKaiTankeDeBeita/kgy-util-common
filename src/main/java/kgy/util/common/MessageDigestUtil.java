@@ -57,7 +57,7 @@ public class MessageDigestUtil {
   }
 
   private static String bytes2HEX(byte[] bytes) {
-    final char[] HEX_DIGITS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+    final char[] HEX_DIGITS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
     int length = bytes.length;
     StringBuilder stringBuilder = new StringBuilder(length * 2);

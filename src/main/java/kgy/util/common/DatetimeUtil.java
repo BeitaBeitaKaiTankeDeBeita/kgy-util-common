@@ -169,6 +169,10 @@ public class DatetimeUtil {
     return calendar.getTime();
   }
 
+  public static Date setTime(Date date, Date time) {
+    return set(date, Calendar.HOUR_OF_DAY, get(time, Calendar.HOUR_OF_DAY), Calendar.MINUTE, get(time, Calendar.MINUTE), Calendar.SECOND, get(time, Calendar.SECOND));
+  }
+
   public static Date setTime(Date date, String source, String pattern) {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(date);

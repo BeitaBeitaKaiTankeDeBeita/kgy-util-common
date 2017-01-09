@@ -186,11 +186,13 @@ public class DatetimeUtil {
     return calendar.getTime();
   }
 
-  public static Date add(Date date, int field, int amount) {
+  public static Date add(Date date, int... fieldAndAmounts) {
     if (null != date) {
       Calendar calendar = Calendar.getInstance();
       calendar.setTime(date);
-      calendar.add(field, amount);
+      for (int i = 0; i < fieldAndAmounts.length / 2; i++) {
+        calendar.add(fieldAndAmounts[i * 2], fieldAndAmounts[i * 2 + 1]);
+      }
       return calendar.getTime();
     }
     return null;
@@ -215,8 +217,8 @@ public class DatetimeUtil {
     return null;
   }
 
-  public static Date add(String dateStr, int field, int amount) {
-    return add(parse(dateStr, "yyyy-MM-dd"), field, amount);
+  public static Date add(String dateStr, int... fieldAndAmounts) {
+    return add(parse(dateStr, "yyyy-MM-dd"), fieldAndAmounts);
   }
 
   public static int compare(Date date0, Date date1, int field) {

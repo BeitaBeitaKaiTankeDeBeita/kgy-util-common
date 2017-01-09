@@ -160,11 +160,11 @@ public class DatetimeUtil {
     return calendar.getActualMaximum(field);
   }
 
-  public static Date set(Date date, int... fieldOrValue) {
+  public static Date set(Date date, int... fieldOrValues) {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(date);
-    for (int i = 0; i < fieldOrValue.length / 2; i++) {
-      calendar.set(fieldOrValue[i * 2], fieldOrValue[i * 2 + 1]);
+    for (int i = 0; i < fieldOrValues.length / 2; i++) {
+      calendar.set(fieldOrValues[i * 2], fieldOrValues[i * 2 + 1]);
     }
     return calendar.getTime();
   }
@@ -249,6 +249,29 @@ public class DatetimeUtil {
 
   public static double difference(Date date0, Date date1, int field, int scale) {
     return new BigDecimal(difference(date0, date1, field)).setScale(scale, BigDecimal.ROUND_HALF_UP).doubleValue();
+  }
+
+  @SuppressWarnings("fallthrough")
+  public static Date ignoreCascade(Date date, int field) {
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(date);
+    switch (field) {
+      case Calendar.YEAR:
+        calendar.set(Calendar.YEAR, 1970);
+      case Calendar.MONTH:
+        calendar.set(Calendar.MONTH, 0);
+      case Calendar.DAY_OF_MONTH:
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+      case Calendar.MINUTE:
+        calendar.set(Calendar.MINUTE, 0);
+      case Calendar.SECOND:
+        calendar.set(Calendar.SECOND, 0);
+      case Calendar.MILLISECOND:
+        calendar.set(Calendar.MILLISECOND, 0);
+      case Calendar.HOUR_OF_DAY:
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+    }
+    return calendar.getTime();
   }
 
   public static Date ignoreTime(Date date) {

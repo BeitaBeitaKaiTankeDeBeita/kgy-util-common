@@ -198,25 +198,6 @@ public class DatetimeUtil {
     return null;
   }
 
-  public static Date add(Date date, int field, double amount) {
-    if (null != date) {
-      Calendar calendar = Calendar.getInstance();
-      calendar.setTime(date);
-
-      switch (field) {
-        case Calendar.DAY_OF_MONTH:
-          amount *= 24 * 60 * 60 * 1000;
-          calendar.add(Calendar.MILLISECOND, (int) amount);
-          break;
-        default:
-          throw new RuntimeException("未支持的 " + field);
-      }
-
-      return calendar.getTime();
-    }
-    return null;
-  }
-
   public static Date add(String dateStr, int... fieldAndAmounts) {
     return add(parse(dateStr, "yyyy-MM-dd"), fieldAndAmounts);
   }

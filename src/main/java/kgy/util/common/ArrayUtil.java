@@ -138,7 +138,6 @@ public class ArrayUtil {
    * @param str
    * @param str1
    * @return
-   * @deprecated
    */
   public static String intersection(String str, String str1) {
     String result = "";
@@ -153,6 +152,32 @@ public class ArrayUtil {
       }
     }
     return result;
+  }
+
+  /**
+   * ∪ (String<{}{}>)
+   *
+   * @param str
+   * @param str1
+   * @return
+   */
+  public static String union(String str, String str1) {
+    if (null != str && null != str1) {
+      Set<String> set = new HashSet<>(0);
+      set.addAll(Arrays.asList(str.substring(1, str.length() - 1).split("\\}\\{")));
+      set.addAll(Arrays.asList(str1.substring(1, str1.length() - 1).split("\\}\\{")));
+      String result = "";
+      result = set.stream()
+          .map((str2) -> "{" + str2 + "}")
+          .reduce(result, String::concat);
+      return result;
+    } else if (null != str) {
+      return str;
+    } else if (null != str1) {
+      return str1;
+    } else {
+      return "";
+    }
   }
 
   private ArrayUtil() {

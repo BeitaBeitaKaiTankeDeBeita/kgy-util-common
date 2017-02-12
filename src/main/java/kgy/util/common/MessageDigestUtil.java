@@ -2,10 +2,14 @@ package kgy.util.common;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.channels.FileChannel;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -33,8 +37,14 @@ public class MessageDigestUtil {
   public static String get(String algorithm, File file) {
     try {
       MessageDigest messageDigest = MessageDigest.getInstance(algorithm);
-      messageDigest.update(new FileInputStream(file).getChannel().map(FileChannel.MapMode.READ_ONLY, 0, file.length()));
-      return bytes2HEX(messageDigest.digest());
+
+      try (FileInputStream fileInputStream = new FileInputStream(file); DigestInputStream digestInputStream = new DigestInputStream(fileInputStream, messageDigest)) {
+
+        byte[] bytes = new byte[1024 ^ 2];
+        while (digestInputStream.read(bytes) > 0);
+
+        return bytes2HEX(digestInputStream.getMessageDigest().digest());
+      }
     } catch (NoSuchAlgorithmException | IOException e) {
       throw new RuntimeException(e);
     }

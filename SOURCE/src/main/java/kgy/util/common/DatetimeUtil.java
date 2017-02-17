@@ -154,6 +154,19 @@ public class DatetimeUtil {
     }
   }
 
+  public static int[] get(Date date, int... fields) {
+    int[] ints = new int[fields.length];
+
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(date);
+
+    for (int i = 0; i < fields.length; i++) {
+      ints[i] = calendar.get(fields[i]);
+    }
+
+    return ints;
+  }
+
   public static int getActualMaximum(Date date, int field) {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(date);
@@ -202,9 +215,17 @@ public class DatetimeUtil {
     return add(parse(dateStr, "yyyy-MM-dd"), fieldAndAmounts);
   }
 
-  public static int compare(Date date0, Date date1, int field) {
+  /**
+   *
+   * @param date
+   * @param date1
+   * @param field
+   * @return
+   * @deprecated
+   */
+  public static int compare(Date date, Date date1, int field) {
 
-    long difference = date0.getTime() - date1.getTime();
+    long difference = date.getTime() - date1.getTime();
 
     switch (field) {
       case Calendar.DAY_OF_MONTH:
@@ -214,9 +235,9 @@ public class DatetimeUtil {
     }
   }
 
-  public static double difference(Date date0, Date date1, int field) {
+  public static double difference(Date date, Date date1, int field) {
 
-    long difference = date1.getTime() - date0.getTime();
+    long difference = date1.getTime() - date.getTime();
 
     switch (field) {
       case Calendar.DAY_OF_MONTH:
@@ -226,12 +247,46 @@ public class DatetimeUtil {
       case Calendar.SECOND:
         return difference / 1000d;
       default:
-        return 0d;
+        throw new RuntimeException();
     }
   }
 
-  public static double difference(Date date0, Date date1, int field, int scale) {
-    return new BigDecimal(difference(date0, date1, field)).setScale(scale, BigDecimal.ROUND_HALF_UP).doubleValue();
+  public static double difference(Date date, Date date1, int field, int scale) {
+    return new BigDecimal(difference(date, date1, field)).setScale(scale, BigDecimal.ROUND_HALF_UP).doubleValue();
+  }
+
+  public static int[] difference(Date date, Date date1) {
+    if (date.before(date1)) {
+      int[] result = new int[3];
+
+      int[] ints = get(date, Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH);
+      int[] ints1 = get(date1, Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH);
+
+      int year = ints[0];
+      int month = ints[1];
+      int dayOfMonth = ints[2];
+      int year1 = ints1[0];
+      int month1 = ints1[1];
+      int dayOfMonth1 = ints1[2];
+
+      if (dayOfMonth1 < dayOfMonth) {
+        month1 -= 1;
+        dayOfMonth1 += getActualMaximum(add(date1, Calendar.MONTH, -1), Calendar.DAY_OF_MONTH);
+      }
+      result[2] = dayOfMonth1 - dayOfMonth;
+
+      if (month1 < month) {
+        year1 -= 1;
+        month1 += 12;
+      }
+      result[1] = month1 - month;
+
+      result[0] = year1 - year;
+
+      return result;
+    } else {
+      throw new RuntimeException();
+    }
   }
 
   @SuppressWarnings("fallthrough")

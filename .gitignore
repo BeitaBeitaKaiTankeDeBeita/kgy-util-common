@@ -1,2 +1,28 @@
-/target/
-/src/main/java/temp/
+SOURCE/target/
+!SOURCE/.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+SOURCE/.apt_generated
+SOURCE/.classpath
+SOURCE/.factorypath
+SOURCE/.project
+SOURCE/.settings
+SOURCE/.springBeans
+
+### IntelliJ IDEA ###
+SOURCE/.idea
+SOURCE/*.iws
+SOURCE/*.iml
+SOURCE/*.ipr
+
+### NetBeans ###
+SOURCE/nbproject/private/
+SOURCE/build/
+SOURCE/nbbuild/
+SOURCE/dist/
+SOURCE/nbdist/
+SOURCE/.nb-gradle/
+
+### KGY ###
+SOURCE/tomcat/
+SOURCE/src/main/java/temp/

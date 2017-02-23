@@ -130,6 +130,7 @@ public class DatetimeUtil {
 
   public static int get(Date date, int field) {
     Calendar calendar = Calendar.getInstance();
+    calendar.setFirstDayOfWeek(Calendar.MONDAY);
     calendar.setTime(date);
     return calendar.get(field);
   }
@@ -150,7 +151,7 @@ public class DatetimeUtil {
           return 4;
         }
       default:
-        return -1;
+        throw new UnsupportedOperationException(field);
     }
   }
 
@@ -158,6 +159,7 @@ public class DatetimeUtil {
     int[] ints = new int[fields.length];
 
     Calendar calendar = Calendar.getInstance();
+    calendar.setFirstDayOfWeek(Calendar.MONDAY);
     calendar.setTime(date);
 
     for (int i = 0; i < fields.length; i++) {
@@ -169,6 +171,7 @@ public class DatetimeUtil {
 
   public static int getActualMaximum(Date date, int field) {
     Calendar calendar = Calendar.getInstance();
+    calendar.setFirstDayOfWeek(Calendar.MONDAY);
     calendar.setTime(date);
     return calendar.getActualMaximum(field);
   }
@@ -247,7 +250,7 @@ public class DatetimeUtil {
       case Calendar.SECOND:
         return difference / 1000d;
       default:
-        throw new RuntimeException();
+        throw new UnsupportedOperationException(String.valueOf(field));
     }
   }
 
@@ -285,7 +288,7 @@ public class DatetimeUtil {
 
       return result;
     } else {
-      throw new RuntimeException();
+      throw new UnsupportedOperationException();
     }
   }
 

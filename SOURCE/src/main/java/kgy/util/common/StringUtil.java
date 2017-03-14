@@ -1,12 +1,15 @@
 package kgy.util.common;
 
+import java.util.logging.Logger;
+
 /**
- * String Utility
+ * String工具
  *
- * @author Kistory
- * @build 2016-6-2 10:21:48
+ * @author KistoryGUAN
  */
 public class StringUtil {
+
+  private static final Logger LOG = Logger.getLogger(StringUtil.class.getName());
 
   public static String[] split(String src, Integer splitSize) {
     String[] srcs = src.split(",");
@@ -22,6 +25,22 @@ public class StringUtil {
     }
 
     return result;
+  }
+
+  public static String toUppercaseWithUnderline(String src) {
+    String str = "";
+    for (int i = 0; i < src.length(); i++) {
+      char char0 = src.charAt(i);
+      if (char0 >= 65 && char0 <= 90) {
+        if (i > 0) {
+          str += "_";
+        }
+        str += char0;
+      } else if (char0 >= 97 && char0 <= 122) {
+        str += (char) (char0 - 32);
+      }
+    }
+    return str;
   }
 
   private StringUtil() {

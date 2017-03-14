@@ -185,6 +185,15 @@ public class DatetimeUtil {
     return calendar.getTime();
   }
 
+  public static Date set(Date date, int[] fields, int[] values) {
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(date);
+    for (int i = 0; i < fields.length; i++) {
+      calendar.set(fields[i], values[i]);
+    }
+    return calendar.getTime();
+  }
+
   public static Date setTime(Date date, Date time) {
     return set(date, Calendar.HOUR_OF_DAY, get(time, Calendar.HOUR_OF_DAY), Calendar.MINUTE, get(time, Calendar.MINUTE), Calendar.SECOND, get(time, Calendar.SECOND));
   }
@@ -245,6 +254,8 @@ public class DatetimeUtil {
     switch (field) {
       case Calendar.DAY_OF_MONTH:
         return difference / 86400000d;
+      case Calendar.HOUR_OF_DAY:
+        return difference / 3600000d;
       case Calendar.MINUTE:
         return difference / 60000d;
       case Calendar.SECOND:

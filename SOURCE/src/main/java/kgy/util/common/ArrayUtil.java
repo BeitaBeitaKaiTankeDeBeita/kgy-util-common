@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 
 /**
  * 数组工具类
@@ -14,8 +13,6 @@ import java.util.logging.Logger;
  * @build 2016-1-31 16:23:52
  */
 public class ArrayUtil {
-
-  private static final Logger LOG = Logger.getLogger(ArrayUtil.class.getName());
 
   public static Double[] toDoubleArray(String[] strs) {
     Double[] dbls = new Double[strs.length];
@@ -71,6 +68,46 @@ public class ArrayUtil {
       }
     }
     return new Integer[0];
+  }
+
+  public static String[][] to2DArray(String[] strs) {
+    List<String> strsList = new ArrayList<>(0);
+    String str = "";
+    for (int i = 0; i < strs.length; i++) {
+      String str1 = strs[i];
+
+      if (i == 0) {
+        if (!str1.equals(",")) {
+          str += "," + str1;
+        }
+      } else if (i == strs.length - 1) {
+        if (!str1.equals(",")) {
+          str += "," + str1;
+        }
+        strsList.add(str.replaceFirst(",", ""));
+      } else {
+        if (str1.equals(",")) {
+          strsList.add(str.replaceFirst(",", ""));
+          str = "";
+        } else {
+          str += "," + str1;
+        }
+      }
+    }
+
+    String[][] strss = new String[strsList.size()][];
+    int i = 0;
+    for (String strs1 : strsList) {
+      String[] strs2 = strs1.split(",");
+      strss[i] = new String[strs2.length];
+      int j = 0;
+      for (String str1 : strs2) {
+        strss[i][j++] = str1;
+      }
+      i++;
+    }
+
+    return strss;
   }
 
   public static String[] toStringArray(String str) {

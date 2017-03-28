@@ -19,6 +19,19 @@ public class FileUtil {
 
   private static final Logger LOG = Logger.getLogger(FileUtil.class.getName());
 
+  public static boolean delete(File file) {
+    if (!file.exists()) {
+      return true;
+    } else if (file.isFile()) {
+      return file.delete();
+    } else {
+      for (File file1 : file.listFiles()) {
+        delete(file1);
+      }
+      return file.delete();
+    }
+  }
+
   public static String getExtensions(String pathname) {
     if (pathname.contains(".")) {
       return pathname.substring(pathname.indexOf(".") + 1);
@@ -2095,5 +2108,8 @@ public class FileUtil {
 
       return bytes;
     }
+  }
+
+  protected FileUtil() {
   }
 }

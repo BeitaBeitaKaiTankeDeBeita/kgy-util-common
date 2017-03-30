@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.logging.Logger;
 
 /**
  * 日期时间工具类
@@ -18,8 +17,6 @@ public class DatetimeUtil {
   public static final String ZH_CN = "zh-CN";
   public static final String QUARTER_OF_YEAR = "QUARTER_OF_YEAR";
   public static final String MONTH_OF_YEAR = "MONTH_OF_YEAR";
-
-  private static final Logger LOG = Logger.getLogger(DatetimeUtil.class.getName());
 
   public static String format(Date date, String pattern) {
     return new SimpleDateFormat(pattern).format(date);
@@ -476,6 +473,45 @@ public class DatetimeUtil {
 
   public static Date getMaxBirthdateByAge(int age, Date now) {
     return ignoreTime(add(now, Calendar.YEAR, -age));
+  }
+
+  public static double hitHourOfDay(Date beginDate, Date endDate, Date... times) {
+
+    double sum = 0;
+
+    int diffDayOfMonth = (int) DatetimeUtil.difference(DatetimeUtil.ignoreTime(beginDate), DatetimeUtil.ignoreTime(endDate), Calendar.DAY_OF_MONTH);
+    for (int i = 0; i <= diffDayOfMonth; i++) {
+      Date date = DatetimeUtil.add(beginDate, Calendar.DAY_OF_MONTH, i);
+      Date date1 = DatetimeUtil.set(date, Calendar.HOUR_OF_DAY, 23, Calendar.MINUTE, 59, Calendar.SECOND, 59, Calendar.MILLISECOND, 999);
+      if (i != 0) {
+        date = DatetimeUtil.ignoreTime(date);
+      }
+      if (i == diffDayOfMonth) {
+        date1 = endDate;
+      }
+
+      if (times.length % 2 == 0) {
+        for (int j = 0; j < times.length / 2; j++) {
+          Date date2 = DatetimeUtil.setTime(date, times[j * 2]);
+          Date date3 = DatetimeUtil.setTime(date1, times[j * 2 + 1]);
+          if (date.after(date2)) {
+            date2 = date;
+          }
+          if (date1.before(date3)) {
+            date3 = date1;
+          }
+
+          Double diffHourOfDay = DatetimeUtil.difference(date2, date3, Calendar.HOUR_OF_DAY);
+          if (diffHourOfDay > 0) {
+            sum += diffHourOfDay;
+          }
+        }
+      } else {
+        throw new UnsupportedOperationException();
+      }
+    }
+
+    return sum;
   }
 
   private DatetimeUtil() {

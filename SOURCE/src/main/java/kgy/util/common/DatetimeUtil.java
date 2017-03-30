@@ -514,6 +514,14 @@ public class DatetimeUtil {
     return sum;
   }
 
+  public static double intersection(Date startDate, Date endDate, Date startDate1, Date endDate1, int field) {
+    if (!startDate.after(endDate) && !startDate1.after(endDate1)) {
+      return DatetimeUtil.difference(startDate.after(startDate1) ? startDate : startDate1, endDate.before(endDate1) ? endDate : endDate1, field);
+    }
+
+    return 0;
+  }
+
   private DatetimeUtil() {
   }
 }

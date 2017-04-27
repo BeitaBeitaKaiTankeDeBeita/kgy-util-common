@@ -191,19 +191,24 @@ public class DatetimeUtil {
     return calendar.getTime();
   }
 
-  public static Date setTime(Date date, Date time) {
-    return set(date, Calendar.HOUR_OF_DAY, get(time, Calendar.HOUR_OF_DAY), Calendar.MINUTE, get(time, Calendar.MINUTE), Calendar.SECOND, get(time, Calendar.SECOND));
-  }
-
-  public static Date setTime(Date date, String source, String pattern) {
+  @SuppressWarnings("fallthrough")
+  public static Date setTime(Date date, String source) {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(date);
 
-    Date time = parse(source, pattern);
-    calendar.set(Calendar.HOUR_OF_DAY, get(time, Calendar.HOUR_OF_DAY));
-    calendar.set(Calendar.MINUTE, get(time, Calendar.MINUTE));
-    calendar.set(Calendar.SECOND, get(time, Calendar.SECOND));
+    String[] timeStrPart = source.split(":");
     calendar.set(Calendar.MILLISECOND, 0);
+    switch (timeStrPart.length) {
+      case 3:
+        calendar.set(Calendar.SECOND, Integer.parseInt(timeStrPart[2]));
+      case 2:
+        calendar.set(Calendar.MINUTE, Integer.parseInt(timeStrPart[1]));
+      case 1:
+        calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeStrPart[0]));
+        break;
+      default:
+        throw new UnsupportedOperationException(source);
+    }
 
     return calendar.getTime();
   }
@@ -475,33 +480,32 @@ public class DatetimeUtil {
     return ignoreTime(add(now, Calendar.YEAR, -age));
   }
 
-  public static double hitHourOfDay(Date beginDate, Date endDate, Date... times) {
-
+  public static double hitHourOfDay(Date beginDate, Date endDate, String... timeStrs) {
     double sum = 0;
 
     int diffDayOfMonth = (int) DatetimeUtil.difference(DatetimeUtil.ignoreTime(beginDate), DatetimeUtil.ignoreTime(endDate), Calendar.DAY_OF_MONTH);
     for (int i = 0; i <= diffDayOfMonth; i++) {
-      Date date = DatetimeUtil.add(beginDate, Calendar.DAY_OF_MONTH, i);
-      Date date1 = DatetimeUtil.set(date, Calendar.HOUR_OF_DAY, 23, Calendar.MINUTE, 59, Calendar.SECOND, 59, Calendar.MILLISECOND, 999);
+      Date date1 = DatetimeUtil.add(beginDate, Calendar.DAY_OF_MONTH, i);
+      Date date2 = DatetimeUtil.add(DatetimeUtil.ignoreTime(date1), Calendar.DAY_OF_MONTH, 1);
       if (i != 0) {
-        date = DatetimeUtil.ignoreTime(date);
+        date1 = DatetimeUtil.ignoreTime(date1);
       }
       if (i == diffDayOfMonth) {
-        date1 = endDate;
+        date2 = endDate;
       }
 
-      if (times.length % 2 == 0) {
-        for (int j = 0; j < times.length / 2; j++) {
-          Date date2 = DatetimeUtil.setTime(date, times[j * 2]);
-          Date date3 = DatetimeUtil.setTime(date1, times[j * 2 + 1]);
-          if (date.after(date2)) {
-            date2 = date;
-          }
-          if (date1.before(date3)) {
+      if (timeStrs.length % 2 == 0) {
+        for (int j = 0; j < timeStrs.length / 2; j++) {
+          Date date3 = DatetimeUtil.setTime(beginDate, timeStrs[j * 2]);
+          Date date4 = DatetimeUtil.setTime(beginDate, timeStrs[j * 2 + 1]);
+          if (date1.after(date3)) {
             date3 = date1;
           }
+          if (date2.before(date4)) {
+            date4 = date2;
+          }
 
-          Double diffHourOfDay = DatetimeUtil.difference(date2, date3, Calendar.HOUR_OF_DAY);
+          Double diffHourOfDay = DatetimeUtil.difference(date3, date4, Calendar.HOUR_OF_DAY);
           if (diffHourOfDay > 0) {
             sum += diffHourOfDay;
           }

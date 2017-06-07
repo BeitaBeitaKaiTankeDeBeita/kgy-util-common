@@ -192,7 +192,7 @@ public class DatetimeUtil {
   }
 
   @SuppressWarnings("fallthrough")
-  public static Date setTime(Date date, String source) {
+  public static Date setTime(Date date, String source, boolean carry) {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(date);
 
@@ -200,11 +200,11 @@ public class DatetimeUtil {
     calendar.set(Calendar.MILLISECOND, 0);
     switch (timeStrPart.length) {
       case 3:
-        calendar.set(Calendar.SECOND, Integer.parseInt(timeStrPart[2]));
+        calendar.set(Calendar.SECOND, carry ? Integer.parseInt(timeStrPart[2]) : Integer.parseInt(timeStrPart[2]) % 60);
       case 2:
-        calendar.set(Calendar.MINUTE, Integer.parseInt(timeStrPart[1]));
+        calendar.set(Calendar.MINUTE, carry ? Integer.parseInt(timeStrPart[1]) : Integer.parseInt(timeStrPart[1]) % 60);
       case 1:
-        calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeStrPart[0]));
+        calendar.set(Calendar.HOUR_OF_DAY, carry ? Integer.parseInt(timeStrPart[0]) : Integer.parseInt(timeStrPart[0]) % 24);
         break;
       default:
         throw new UnsupportedOperationException(source);
@@ -480,6 +480,14 @@ public class DatetimeUtil {
     return ignoreTime(add(now, Calendar.YEAR, -age));
   }
 
+  /**
+   *
+   * @param beginDate
+   * @param endDate
+   * @param timeStrs
+   * @return
+   * @deprecated
+   */
   public static double hitHourOfDay(Date beginDate, Date endDate, String... timeStrs) {
     double sum = 0;
 
@@ -496,8 +504,8 @@ public class DatetimeUtil {
 
       if (timeStrs.length % 2 == 0) {
         for (int j = 0; j < timeStrs.length / 2; j++) {
-          Date date3 = DatetimeUtil.setTime(beginDate, timeStrs[j * 2]);
-          Date date4 = DatetimeUtil.setTime(beginDate, timeStrs[j * 2 + 1]);
+          Date date3 = DatetimeUtil.setTime(beginDate, timeStrs[j * 2], true);
+          Date date4 = DatetimeUtil.setTime(beginDate, timeStrs[j * 2 + 1], true);
           if (date1.after(date3)) {
             date3 = date1;
           }
@@ -516,6 +524,98 @@ public class DatetimeUtil {
     }
 
     return sum;
+  }
+
+  /**
+   *
+   * @param beginDate      开始时间
+   * @param endDate        结束时间
+   * @param matchDatePairs 匹配开始/结束时间对
+   * @return
+   */
+  public static double hitHourOfDay(Date beginDate, Date endDate, Date... matchDatePairs) {
+    double sum = 0;
+
+    int diffDayOfMonth = (int) DatetimeUtil.difference(DatetimeUtil.ignoreTime(beginDate), DatetimeUtil.ignoreTime(endDate), Calendar.DAY_OF_MONTH);
+    for (int i = 0; i <= diffDayOfMonth; i++) {
+      Date date1 = DatetimeUtil.add(beginDate, Calendar.DAY_OF_MONTH, i);
+      Date date2 = DatetimeUtil.add(DatetimeUtil.ignoreTime(date1), Calendar.DAY_OF_MONTH, 1);
+      if (i != 0) {
+        date1 = DatetimeUtil.ignoreTime(date1);
+      }
+      if (i == diffDayOfMonth) {
+        date2 = endDate;
+      }
+
+      if (matchDatePairs.length % 2 == 0) {
+        for (int j = 0; j < matchDatePairs.length / 2; j++) {
+          Date date3 = matchDatePairs[j * 2];
+          Date date4 = matchDatePairs[j * 2 + 1];
+          if (date1.after(date3)) {
+            date3 = date1;
+          }
+          if (date2.before(date4)) {
+            date4 = date2;
+          }
+
+          Double diffHourOfDay = DatetimeUtil.difference(date3, date4, Calendar.HOUR_OF_DAY);
+          if (diffHourOfDay > 0) {
+            sum += diffHourOfDay;
+          }
+        }
+      } else {
+        throw new UnsupportedOperationException();
+      }
+    }
+
+    return sum;
+  }
+
+  /**
+   *
+   * @param beginDate      开始时间
+   * @param endDate        结束时间
+   * @param matchDatePairs 匹配开始/结束时间对
+   * @param dayToHourRates 天转换到时比例
+   * @return {时,天}
+   */
+  public static double[] hitHourOfDay(Date beginDate, Date endDate, Date[] matchDatePairs, Double dayToHourRates[]) {
+    double[] sums = {0, 0};
+
+    int diffDayOfMonth = (int) DatetimeUtil.difference(DatetimeUtil.ignoreTime(beginDate), DatetimeUtil.ignoreTime(endDate), Calendar.DAY_OF_MONTH);
+    for (int i = 0; i <= diffDayOfMonth; i++) {
+      Date date1 = DatetimeUtil.add(beginDate, Calendar.DAY_OF_MONTH, i);
+      Date date2 = DatetimeUtil.add(DatetimeUtil.ignoreTime(date1), Calendar.DAY_OF_MONTH, 1);
+      if (i != 0) {
+        date1 = DatetimeUtil.ignoreTime(date1);
+      }
+      if (i == diffDayOfMonth) {
+        date2 = endDate;
+      }
+
+      if (matchDatePairs.length % 2 == 0) {
+        for (int j = 0; j < matchDatePairs.length / 2; j++) {
+          Date date3 = matchDatePairs[j * 2];
+          Date date4 = matchDatePairs[j * 2 + 1];
+          if (date1.after(date3)) {
+            date3 = date1;
+          }
+          if (date2.before(date4)) {
+            date4 = date2;
+          }
+
+          Double diffHourOfDay = DatetimeUtil.difference(date3, date4, Calendar.HOUR_OF_DAY);
+          if (diffHourOfDay > 0) {
+            sums[0] += diffHourOfDay;
+            sums[1] += diffHourOfDay / dayToHourRates[j];
+          }
+        }
+      } else {
+        throw new UnsupportedOperationException();
+      }
+    }
+
+    return sums;
   }
 
   public static double intersection(Date startDate, Date endDate, Date startDate1, Date endDate1, int field) {

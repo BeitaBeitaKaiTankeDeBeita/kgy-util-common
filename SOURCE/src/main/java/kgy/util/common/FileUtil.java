@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 /**
  * 文件工具类
  *
- * @author Kistory管音鹏
+ * @author KistoryG
  * @version 1.2
  * @build 2016-09-26 09:24:24
  */
@@ -50,6 +50,7 @@ public class FileUtil {
    * 获取完整扩展名
    *
    * @param file
+   *
    * @return
    */
   public static String getExtensions(File file) {
@@ -60,6 +61,7 @@ public class FileUtil {
    * 获取顶级扩展名
    *
    * @param file
+   *
    * @return
    */
   public static String getExtension(File file) {
@@ -2097,7 +2099,9 @@ public class FileUtil {
 
   /**
    * @param name the system-dependent file name
+   *
    * @return
+   *
    * @throws IOException
    */
   public static byte[] toBytes(String name) throws IOException {

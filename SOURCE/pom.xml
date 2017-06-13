@@ -7,7 +7,7 @@
 
   <groupId>kgy.util</groupId>
   <artifactId>kgy-util-common</artifactId>
-  <version>1.14.2</version>
+  <version>1.14.3</version>
   <packaging>jar</packaging>
 
   <name>KGY Util Common</name>

@@ -1,38 +1,36 @@
 package kgy.util.common;
 
 import java.text.DecimalFormat;
-import java.util.logging.Logger;
 
 /**
  * 数字工具类
  *
- * @author Kistory管音鹏
- * @version 1.0
- * @build 2016-4-22 20:58:21
+ * @author KistoryG
+ * @version 1.1
+ * @build 2017-6-13 09:19:18
  */
 public class NumericUtil {
 
-  private static final Logger LOG = Logger.getLogger(NumericUtil.class.getName());
-
-  public static String format(Double dbl, String pattern) {
-    if (null != dbl) {
-      return new DecimalFormat(pattern).format(dbl);
+  public static String format(Object obj, String pattern) {
+    if (null != obj) {
+      return new DecimalFormat(pattern).format(obj);
     }
     return "";
   }
 
-  public static String format(Double dbl) {
-    return format(dbl, ",##0.00######");
+  public static String format(Object obj) {
+    return format(obj, ",##0.00######");
   }
 
-  public static String formatPercent(Double dbl) {
-    return format(dbl, ",##0.00######%");
+  public static String formatPercent(Object obj) {
+    return format(obj, ",##0.00######%");
   }
 
   /**
    * 阿拉伯数字转罗马数字
    *
    * @param arabic
+   *
    * @return
    */
   public static String toRoman(int arabic) {
@@ -55,6 +53,7 @@ public class NumericUtil {
    * 格式化数据大小
    *
    * @param size
+   *
    * @return
    */
   public static String formateDateSize(Long size) {

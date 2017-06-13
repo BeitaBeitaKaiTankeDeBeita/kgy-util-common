@@ -102,7 +102,12 @@ public class StringUtil {
         }
       }
 
-      return str.replaceAll("_+", "_");
+      str = str.replaceAll("_+", "_");
+      if (str.endsWith("_")) {
+        str = str.substring(0, str.length() - 1);
+      }
+
+      return str;
     } else {
 
       return src.toLowerCase();
@@ -130,7 +135,12 @@ public class StringUtil {
         }
       }
 
-      return str.replaceAll("_+", "_");
+      str = str.replaceAll("_+", "_");
+      if (str.endsWith("_")) {
+        str = str.substring(0, str.length() - 1);
+      }
+
+      return str;
     } else {
 
       return src.toUpperCase();
@@ -158,7 +168,12 @@ public class StringUtil {
         }
       }
 
-      return str.replaceAll("-+", "-");
+      str = str.replaceAll("-+", "-");
+      if (str.endsWith("-")) {
+        str = str.substring(0, str.length() - 1);
+      }
+
+      return str;
     } else {
 
       return src.toLowerCase();
@@ -186,7 +201,12 @@ public class StringUtil {
         }
       }
 
-      return str.replaceAll("-+", "-");
+      str = str.replaceAll("-+", "-");
+      if (str.endsWith("-")) {
+        str = str.substring(0, str.length() - 1);
+      }
+
+      return str;
     } else {
 
       return src.toUpperCase();

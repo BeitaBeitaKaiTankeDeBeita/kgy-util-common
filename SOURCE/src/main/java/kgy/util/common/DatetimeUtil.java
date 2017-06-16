@@ -234,7 +234,9 @@ public class DatetimeUtil {
    * @param date
    * @param date1
    * @param field
+   *
    * @return
+   *
    * @deprecated
    */
   public static int compare(Date date, Date date1, int field) {
@@ -446,7 +448,9 @@ public class DatetimeUtil {
    * @param weekOfYear
    * @param firstDayOfWeek
    * @param dayOfWeek
+   *
    * @return
+   *
    * @deprecated
    */
   public static Date get(int year, int weekOfYear, int firstDayOfWeek, int dayOfWeek) {
@@ -485,7 +489,9 @@ public class DatetimeUtil {
    * @param beginDate
    * @param endDate
    * @param timeStrs
+   *
    * @return
+   *
    * @deprecated
    */
   public static double hitHourOfDay(Date beginDate, Date endDate, String... timeStrs) {
@@ -525,12 +531,114 @@ public class DatetimeUtil {
 
     return sum;
   }
+//
+//  /**
+//   *
+//   * @param beginDate
+//   * @param endDate
+//   * @param timeStrs
+//   * @param carry
+//   *
+//   * @return
+//   */
+//  public static double hitHourOfDay(Date beginDate, Date endDate, String[] timeStrs, Boolean carry) {
+//    double sum = 0;
+//
+//    int diffDayOfMonth = (int) DatetimeUtil.difference(DatetimeUtil.ignoreTime(beginDate), DatetimeUtil.ignoreTime(endDate), Calendar.DAY_OF_MONTH);
+//    for (int i = 0; i <= diffDayOfMonth; i++) {
+//      Date date1 = DatetimeUtil.add(beginDate, Calendar.DAY_OF_MONTH, i);
+//      Date date2 = DatetimeUtil.add(DatetimeUtil.ignoreTime(date1), Calendar.DAY_OF_MONTH, 1);
+//      if (i != 0) {
+//        date1 = DatetimeUtil.ignoreTime(date1);
+//      }
+//      if (i == diffDayOfMonth) {
+//        date2 = endDate;
+//      }
+//
+//      if (timeStrs.length % 2 == 0) {
+//        for (int j = 0; j < timeStrs.length / 2; j++) {
+//          String timeStr1 = timeStrs[j * 2];
+//          String timeStr2 = timeStrs[j * 2 + 1];
+//          System.out.println(timeStr1);
+//          System.out.println(timeStr2);
+//
+//          if (carry) {
+//            Date date3 = DatetimeUtil.setTime(beginDate, timeStr1, carry);
+//            Date date4 = DatetimeUtil.setTime(beginDate, timeStr2, carry);
+//            if (date1.after(date3)) {
+//              date3 = date1;
+//            }
+//            if (date2.before(date4)) {
+//              date4 = date2;
+//            }
+//
+//            Double diffHourOfDay = DatetimeUtil.difference(date3, date4, Calendar.HOUR_OF_DAY);
+//            if (diffHourOfDay > 0) {
+//              sum += diffHourOfDay;
+//            }
+//          } else {
+//            Integer timeStrHourIndex1 = Integer.parseInt(timeStr1.split(":")[0]) / 24;
+//            Integer timeStrHourIndex2 = Integer.parseInt(timeStr2.split(":")[0]) / 24;
+//            System.out.println(timeStrHourIndex1);
+//            System.out.println(timeStrHourIndex2);
+//
+//            if (timeStrHourIndex1.equals(timeStrHourIndex2)) {
+//              System.out.println(DatetimeUtil.setTime(date1, timeStr1, carry));
+//              System.out.println(DatetimeUtil.setTime(date1, timeStr2, carry));
+//              Date date3 = DatetimeUtil.setTime(date1, timeStr1, carry);
+//              Date date4 = DatetimeUtil.setTime(date1, timeStr2, carry);
+//              if (date1.after(date3)) {
+//                date3 = date1;
+//              }
+//              if (date2.before(date4)) {
+//                date4 = date2;
+//              }
+//
+//              Double diffHourOfDay = DatetimeUtil.difference(date3, date4, Calendar.HOUR_OF_DAY);
+//              if (diffHourOfDay > 0) {
+//                sum += diffHourOfDay;
+//              }
+//            } else {
+//              Integer diff = timeStrHourIndex2 - timeStrHourIndex1;
+//              for (int k = 0; k < diff; k++) {
+//                Date date3 = DatetimeUtil.setTime(date1, timeStr1, carry);
+//                Date date4 = DatetimeUtil.setTime(date1, timeStr2, carry);
+//                if (k == 0) {
+//                  date3 = date1;
+//                } else if (k == diff - 1) {
+//                  date4 = date2;
+//                }
+//                System.out.println(DatetimeUtil.setTime(date1, timeStr1, carry));
+//                System.out.println(DatetimeUtil.setTime(date1, timeStr2, carry));
+//                if (date1.after(date3)) {
+//                  date3 = date1;
+//                }
+//                if (date2.before(date4)) {
+//                  date4 = date2;
+//                }
+//
+//                Double diffHourOfDay = DatetimeUtil.difference(date3, date4, Calendar.HOUR_OF_DAY);
+//                if (diffHourOfDay > 0) {
+//                  sum += diffHourOfDay;
+//                }
+//              }
+//            }
+//          }
+//        }
+//      } else {
+//        throw new UnsupportedOperationException();
+//      }
+//    }
+//
+//    return sum;
+//  }
 
   /**
    *
    * @param beginDate      开始时间
    * @param endDate        结束时间
    * @param matchDatePairs 匹配开始/结束时间对
+   *
    * @return
    */
   public static double hitHourOfDay(Date beginDate, Date endDate, Date... matchDatePairs) {
@@ -577,6 +685,7 @@ public class DatetimeUtil {
    * @param endDate        结束时间
    * @param matchDatePairs 匹配开始/结束时间对
    * @param dayToHourRates 天转换到时比例
+   *
    * @return {时,天}
    */
   public static double[] hitHourOfDay(Date beginDate, Date endDate, Date[] matchDatePairs, Double dayToHourRates[]) {

@@ -1,7 +1,5 @@
 package kgy.util.common;
 
-import java.util.logging.Logger;
-
 /**
  * String工具
  *
@@ -9,7 +7,14 @@ import java.util.logging.Logger;
  */
 public class StringUtil {
 
-  private static final Logger LOG = Logger.getLogger(StringUtil.class.getName());
+  public static int countContains(String str1, String str2) {
+    int count = 0;
+    while (str1.contains(str2)) {
+      str1 = str1.substring(str1.indexOf(str2) + str2.length());
+      count++;
+    }
+    return count;
+  }
 
   public static String[] split(String src, Integer splitSize) {
     String[] srcs = src.split(",");

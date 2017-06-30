@@ -2,68 +2,50 @@ package kgy.util.common;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * 消息摘要工具类
  *
- * @author Kistory管音鹏
- * @version 1.0.1
- * @build 2015-09-04 23:46:16
+ * @author KistoryG
+ * @version 0.0.2
+ * @build 2017-7-1 00:27:07
  */
 public class MessageDigestUtil {
 
-  private static final Logger LOG = Logger.getLogger(MessageDigestUtil.class.getName());
-
-  public static String get(String algorithm, String string) {
-    try {
-      MessageDigest messageDigest = MessageDigest.getInstance(algorithm);
-      messageDigest.update(string.getBytes());
-      return bytes2HEX(messageDigest.digest());
-    } catch (NoSuchAlgorithmException e) {
-      // ignore
-      return null;
-    }
-  }
-
-  public static String get(String algorithm, File file) {
+  @SuppressWarnings("empty-statement")
+  public static String get(String algorithm, Object obj) {
     try {
       MessageDigest messageDigest = MessageDigest.getInstance(algorithm);
 
-      try (FileInputStream fileInputStream = new FileInputStream(file); DigestInputStream digestInputStream = new DigestInputStream(fileInputStream, messageDigest)) {
+      if (obj instanceof File) {
+        try (FileInputStream fileInputStream = new FileInputStream((File) obj); DigestInputStream digestInputStream = new DigestInputStream(fileInputStream, messageDigest)) {
 
-        byte[] bytes = new byte[1024 ^ 2];
-        while (digestInputStream.read(bytes) > 0);
+          byte[] bytes = new byte[1024 ^ 2];
+          while (digestInputStream.read(bytes) > 0);
 
-        return bytes2HEX(digestInputStream.getMessageDigest().digest());
+          return bytes2HEX(digestInputStream.getMessageDigest().digest());
+        }
+
+      } else {
+        messageDigest.update(obj.toString().getBytes());
+        return bytes2HEX(messageDigest.digest());
       }
+
     } catch (NoSuchAlgorithmException | IOException e) {
       throw new RuntimeException(e);
     }
   }
 
-  public static String getMD5(String string) {
-    return get("MD5", string);
+  public static String getMD5(Object obj) {
+    return get("MD5", obj);
   }
 
-  public static String getMD5(File file) {
-    return get("MD5", file);
-  }
-
-  public static String getSHA1(String string) {
-    return get("SHA1", string);
-  }
-
-  public static String getSHA1(File file) {
-    return get("SHA1", file);
+  public static String getSHA1(Object obj) {
+    return get("SHA1", obj);
   }
 
   private static String bytes2HEX(byte[] bytes) {

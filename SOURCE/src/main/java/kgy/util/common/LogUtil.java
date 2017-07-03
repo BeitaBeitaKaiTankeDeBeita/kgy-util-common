@@ -14,6 +14,14 @@ public class LogUtil {
 
   private static final Logger LOG = Logger.getLogger(LogUtil.class.getName());
 
+  /**
+   *
+   * @param log
+   * @param paramName
+   * @param paramValue
+   *
+   * @deprecated
+   */
   public static void info(Logger log, String paramName, Object paramValue) {
 
     try {
@@ -29,6 +37,19 @@ public class LogUtil {
       log.log(Level.INFO, "【{0}: {1}】", new Object[]{paramName, paramValue});
     } catch (IOException | SecurityException ex) {
       LOG.log(Level.SEVERE, null, ex);
+    }
+  }
+
+  public static void printStackTrace(Logger log, Exception e, int lines) {
+    log.severe(e.toString());
+    StackTraceElement[] stackTraceElements = e.getStackTrace();
+
+    for (int i = 0; i < stackTraceElements.length; i++) {
+      if (i < lines) {
+        log.log(Level.SEVERE, "  at {0}", stackTraceElements[i].toString());
+      } else if (i == lines) {
+        log.severe("  ...");
+      }
     }
   }
 

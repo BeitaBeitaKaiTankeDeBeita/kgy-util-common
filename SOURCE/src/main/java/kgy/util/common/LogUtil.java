@@ -40,13 +40,13 @@ public class LogUtil {
     }
   }
 
-  public static void printStackTrace(Logger log, Exception e, int lines) {
+  public static void printStackTrace(Logger log, Level level, Exception e, int lines) {
     log.severe(e.toString());
     StackTraceElement[] stackTraceElements = e.getStackTrace();
 
     for (int i = 0; i < stackTraceElements.length; i++) {
       if (i < lines) {
-        log.log(Level.SEVERE, "  at {0}", stackTraceElements[i].toString());
+        log.log(level, "  at {0}", stackTraceElements[i].toString());
       } else if (i == lines) {
         log.severe("  ...");
       }

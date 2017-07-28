@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Log Util
  *
  * @author Kistory
  */
@@ -40,15 +41,19 @@ public class LogUtil {
     }
   }
 
+  public static void printStackTrace(Logger log, Level level, Exception e) {
+    printStackTrace(log, level, e, 2 ^ 3);
+  }
+
   public static void printStackTrace(Logger log, Level level, Exception e, int lines) {
-    log.severe(e.toString());
+    log.log(level, e.toString());
     StackTraceElement[] stackTraceElements = e.getStackTrace();
 
     for (int i = 0; i < stackTraceElements.length; i++) {
       if (i < lines) {
         log.log(level, "  at {0}", stackTraceElements[i].toString());
       } else if (i == lines) {
-        log.severe("  ...");
+        log.log(level, "  ...");
       }
     }
   }

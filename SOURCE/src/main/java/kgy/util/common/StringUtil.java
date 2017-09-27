@@ -218,6 +218,24 @@ public class StringUtil {
     }
   }
 
+  public static String fromUnicode(String unicode) {
+    String[] strs = unicode.split("\\\\u");
+    String rtn = "";
+    for (int i = 1; i < strs.length; i++) {
+      rtn += (char) Integer.valueOf(strs[i], 16).intValue();
+    }
+    return rtn;
+  }
+
+  public static String toUnicode(String src) {
+    char[] chars = src.toCharArray();
+    String rtn = "";
+    for (int i = 0; i < chars.length; i++) {
+      rtn += "\\u" + Integer.toString(chars[i], 16);
+    }
+    return rtn;
+  }
+
   private StringUtil() {
   }
 }

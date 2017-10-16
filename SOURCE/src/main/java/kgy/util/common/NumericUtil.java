@@ -69,6 +69,45 @@ public class NumericUtil {
     return format(dbl, "0.###") + " " + unit + "B";
   }
 
+  /**
+   * 人民币大写
+   *
+   * @param money
+   *
+   * @return
+   */
+  public static String toCapital(String money) {
+    String hanziDigit = "零壹贰叁肆伍陆柒捌玖";
+    String unit = "仟佰拾亿仟佰拾万仟佰拾元角分";
+
+    boolean isNegative = money.contains("-");
+    if (isNegative) {
+      money = money.replace("-", "");
+    }
+
+    money += "00";
+
+    int idx = money.indexOf('.');
+    money = idx >= 0 ? money.substring(0, idx) + money.substring(idx + 1, idx + 3) : money;
+    unit = unit.substring(unit.length() - money.length());
+
+    String rtn = "";
+    for (int i = 0; i < money.length(); i++) {
+      int digit = Integer.parseInt(money.substring(i, i + 1));
+      rtn += hanziDigit.substring(digit, digit + 1) + unit.substring(i, i + 1);
+    }
+
+    rtn = rtn.replaceAll("零角零分$", "整")
+        .replaceAll("零[仟佰拾]", "零")
+        .replaceAll("零{2,}", "零")
+        .replaceAll("零([亿|万])", "$1")
+        .replaceAll("零+元", "元")
+        .replaceAll("亿零{0,3}万", "亿")
+        .replaceAll("^元", "零元");
+
+    return isNegative ? "负" + rtn : rtn;
+  }
+
   private NumericUtil() {
   }
 }

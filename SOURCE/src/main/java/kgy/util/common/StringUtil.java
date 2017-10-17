@@ -231,7 +231,7 @@ public class StringUtil {
     char[] chars = src.toCharArray();
     String rtn = "";
     for (int i = 0; i < chars.length; i++) {
-      rtn += "\\u" + Integer.toString(chars[i], 16);
+      rtn += (chars[i] >= 0X4E00 && chars[i] <= 0X9FD5) ? ("\\u" + Integer.toString(chars[i], 16)) : chars[i];
     }
     return rtn;
   }

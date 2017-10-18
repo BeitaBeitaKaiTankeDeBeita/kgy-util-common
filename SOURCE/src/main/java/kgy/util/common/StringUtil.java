@@ -219,10 +219,15 @@ public class StringUtil {
   }
 
   public static String fromUnicode(String unicode) {
-    String[] strs = unicode.split("\\\\u");
+    unicode = unicode.replaceAll("\\\\u\\w{4}", "|$0|");
     String rtn = "";
-    for (int i = 1; i < strs.length; i++) {
-      rtn += (char) Integer.valueOf(strs[i], 16).intValue();
+    String[] strs = unicode.split("\\|");
+    for (String str : strs) {
+      if (str.contains("\\u")) {
+        rtn += (char) Integer.valueOf(str.replace("\\u", ""), 16).intValue();
+      } else {
+        rtn += str;
+      }
     }
     return rtn;
   }
@@ -231,11 +236,15 @@ public class StringUtil {
     char[] chars = src.toCharArray();
     String rtn = "";
     for (char charElem : chars) {
-      String hexStr = Integer.toString(charElem, 16);
-      for (int i = hexStr.length(); i < 4; i++) {
-        hexStr = "0" + hexStr;
+      if ((charElem >= 0 && charElem <= 127)) {
+        rtn += charElem;
+      } else {
+        String hexStr = Integer.toString(charElem, 16);
+        for (int i = hexStr.length(); i < 4; i++) {
+          hexStr = "0" + hexStr;
+        }
+        rtn += "\\u" + hexStr.toUpperCase();
       }
-      rtn += "\\u" + hexStr.toUpperCase();
     }
     return rtn;
   }

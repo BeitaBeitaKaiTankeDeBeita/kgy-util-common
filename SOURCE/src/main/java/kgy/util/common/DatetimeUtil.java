@@ -463,16 +463,11 @@ public class DatetimeUtil {
   }
 
   public static long time() {
-    new Thread() {
-      @Override
-      public void run() {
-        try {
-          Thread.sleep(1);
-        } catch (InterruptedException e) {
-          // ignore
-        }
-      }
-    }.start();
+    try {
+      Thread.sleep(1);
+    } catch (InterruptedException e) {
+      // ignore
+    }
     return new Date().getTime();
   }
 

@@ -463,6 +463,16 @@ public class DatetimeUtil {
   }
 
   public static long time() {
+    new Thread() {
+      @Override
+      public void run() {
+        try {
+          Thread.sleep(1);
+        } catch (InterruptedException e) {
+          // ignore
+        }
+      }
+    }.start();
     return new Date().getTime();
   }
 
@@ -635,8 +645,8 @@ public class DatetimeUtil {
 
   /**
    *
-   * @param beginDate      开始时间
-   * @param endDate        结束时间
+   * @param beginDate 开始时间
+   * @param endDate 结束时间
    * @param matchDatePairs 匹配开始/结束时间对
    *
    * @return
@@ -681,8 +691,8 @@ public class DatetimeUtil {
 
   /**
    *
-   * @param beginDate      开始时间
-   * @param endDate        结束时间
+   * @param beginDate 开始时间
+   * @param endDate 结束时间
    * @param matchDatePairs 匹配开始/结束时间对
    * @param dayToHourRates 天转换到时比例
    *

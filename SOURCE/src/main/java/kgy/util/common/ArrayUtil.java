@@ -10,7 +10,7 @@ import java.util.Set;
  * 数组工具类
  *
  * @author Kistory
- * @build 2016-1-31 16:23:52
+ * @build 2018/5/10 21:07:30
  */
 public class ArrayUtil {
 
@@ -68,6 +68,34 @@ public class ArrayUtil {
       }
     }
     return new Integer[0];
+  }
+
+  public static Long[] toLongArray(String[] strs) {
+    Long[] longs = new Long[strs.length];
+    for (int i = 0; i < strs.length; i++) {
+      String str = strs[i].trim();
+      if ("".equals(str)) {
+        longs[i] = 0L;
+      } else {
+        longs[i] = Long.parseLong(str);
+      }
+    }
+    return longs;
+  }
+
+  public static Long[] toLongArray(String str) {
+    if (null != str && !str.isEmpty()) {
+      if (str.contains(",")) {
+        return toLongArray(str.split(","));
+      } else if (str.contains("{")) {
+        return toLongArray(str.substring(1, str.length() - 1).split("\\}\\{"));
+      } else {
+        return new Long[]{
+          Long.parseLong(str)
+        };
+      }
+    }
+    return new Long[0];
   }
 
   public static String[][] to2DArray(String[] strs) {
@@ -174,6 +202,7 @@ public class ArrayUtil {
    *
    * @param str
    * @param str1
+   *
    * @return
    */
   public static String intersection(String str, String str1) {
@@ -196,6 +225,7 @@ public class ArrayUtil {
    *
    * @param str
    * @param str1
+   *
    * @return
    */
   public static String union(String str, String str1) {

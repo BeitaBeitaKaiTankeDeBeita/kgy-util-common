@@ -9,7 +9,8 @@ import java.util.logging.Logger;
 /**
  * Log Util
  *
- * @author Kistory
+ * @author KistoryG
+ * @build 2018/5/10 21:08:52
  */
 public class LogUtil {
 
@@ -29,20 +30,21 @@ public class LogUtil {
       ConsoleHandler consoleHandler = new ConsoleHandler();
       consoleHandler.setLevel(Level.ALL);
       log.addHandler(consoleHandler);
-      FileHandler fileHandler = new FileHandler("F:/testlog%g.log");
+
+      FileHandler fileHandler = new FileHandler("E:/testlog%g.log");
       fileHandler.setLevel(Level.INFO);
 //    fileHandler.setFormatter();
       log.addHandler(fileHandler);
 
       LOG.log(Level.INFO, "【{0}: {1}】", new Object[]{paramName, paramValue});
       log.log(Level.INFO, "【{0}: {1}】", new Object[]{paramName, paramValue});
-    } catch (IOException | SecurityException ex) {
-      LOG.log(Level.SEVERE, null, ex);
+    } catch (IOException | SecurityException e) {
+      LOG.log(Level.SEVERE, null, e);
     }
   }
 
   public static void printStackTrace(Logger log, Level level, Exception e) {
-    printStackTrace(log, level, e, 2 ^ 3);
+    printStackTrace(log, level, e, 16);
   }
 
   public static void printStackTrace(Logger log, Level level, Exception e, int lines) {

@@ -1,18 +1,23 @@
 package kgy.util.common;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Logger;
 
 /**
  * File Util
  *
- * @author KistoryGUAN
- * @build 2017-8-12 23:37:22
+ * @author KistoryG
+ * @build 2018-7-5 17:01:33
  */
 public class FileUtil {
+
+  private static final Logger LOG = Logger.getLogger(FileUtil.class.getName());
 
   /**
    * 删除 File
@@ -32,6 +37,10 @@ public class FileUtil {
       }
       return file.delete();
     }
+  }
+
+  public static File getDictionary(File file) {
+    return file.isDirectory() ? file : file.getParentFile();
   }
 
   /**
@@ -3715,6 +3724,26 @@ public class FileUtil {
       out.write(bytes);
 
       return bytes;
+    }
+  }
+
+  /**
+   * 写入 File
+   *
+   * @param str
+   * @param pathname
+   */
+  public static void writeToFile(String str, String pathname) {
+    try {
+      File file = new File(pathname);
+      getDictionary(file).mkdirs();
+
+      try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(file))) {
+        bufferedOutputStream.write(str.getBytes());
+        bufferedOutputStream.flush();
+      }
+    } catch (IOException ioe) {
+      throw new RuntimeException(ioe);
     }
   }
 

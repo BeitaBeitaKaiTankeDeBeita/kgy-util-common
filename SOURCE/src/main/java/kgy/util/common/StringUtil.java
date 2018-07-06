@@ -1,11 +1,15 @@
 package kgy.util.common;
 
+import java.util.logging.Logger;
+
 /**
  * String工具
  *
- * @author KistoryGUAN
+ * @author KistoryG
  */
 public class StringUtil {
+
+  private static final Logger LOG = Logger.getLogger(StringUtil.class.getName());
 
   public static int countContains(String str1, String str2) {
     int count = 0;

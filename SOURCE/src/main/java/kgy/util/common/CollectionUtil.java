@@ -1,17 +1,31 @@
 package kgy.util.common;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  * Collection 工具类
  *
  * @author KistoryG
- * @build 2018/5/10 21:08:31
+ * @build 2018-7-6 10:03:25
  */
 public class CollectionUtil {
+
+  private static final Logger LOG = Logger.getLogger(CollectionUtil.class.getName());
+
+  public static String join(Collection collection, String separator) {
+    String str = "";
+    for (Object obj : collection) {
+      str += "*PLACEHOLDER*" + obj.toString();
+    }
+    str = str.replaceFirst("\\*PLACEHOLDER\\*", "").replaceAll("\\*PLACEHOLDER\\*", separator);
+
+    return str;
+  }
 
   public static Set<List<String>> split(List<String> list, int limit) {
     int size = list.size();

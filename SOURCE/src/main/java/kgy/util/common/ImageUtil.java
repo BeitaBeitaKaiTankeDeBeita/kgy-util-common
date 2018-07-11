@@ -22,17 +22,26 @@ import javax.imageio.ImageWriter;
 /**
  * 图像工具类
  *
- * @author Kistory管音鹏
- * @version 1.3
+ * @author KistoryG
+ *
  * @build 2016-09-26 09:18:54
  */
-public class ImageUtil extends FileUtil {
+public class ImageUtil {
 
   private static final Logger LOG = Logger.getLogger(ImageUtil.class.getName());
 
   /**
-   * @param input a File to read from
-   * @return a BufferedImage containing the decoded contents of the input, or null
+   * Returns a BufferedImage as the result of decoding a supplied InputStream with an ImageReader chosen automatically from among those currently registered. The InputStream is wrapped in an ImageInputStream. If no registered ImageReader claims to be able to read the resulting stream, null is returned.
+   * <p>
+   * The current cache settings from getUseCacheand getCacheDirectory will be used to control caching in the ImageInputStream that is created.
+   * <p>
+   * This method does not attempt to locate ImageReaders that can read directly from an InputStream; that may be accomplished using IIORegistry and ImageReaderSpi.
+   * <p>
+   * This method does not close the provided InputStream after the read operation has completed; it is the responsibility of the caller to close the stream, if desired.
+   *
+   * @param input an InputStream to read from.
+   *
+   * @return a BufferedImage containing the decoded contents of the input, or null.
    */
   public static BufferedImage toBufferedImage(InputStream input) {
     try {
@@ -78,8 +87,9 @@ public class ImageUtil extends FileUtil {
 
     Shape shape = font.createGlyphVector(graphics2D.getFontMetrics().getFontRenderContext(), str).getOutline();
     Rectangle2D rectangle2D = shape.getBounds2D();
-    graphics2D.translate(bufferedImage.getWidth() - (int) rectangle2D.getWidth() - 10,
-                         bufferedImage.getHeight() - font.getSize() - offset - 60);
+    graphics2D.translate(
+        bufferedImage.getWidth() - (int) rectangle2D.getWidth() - 10,
+        bufferedImage.getHeight() - font.getSize() - offset - 60);
     graphics2D.setPaint(Color.WHITE);
     graphics2D.fill(shape);
     graphics2D.setPaint(Color.BLACK);
@@ -110,17 +120,22 @@ public class ImageUtil extends FileUtil {
    * @param newWidth   new width of the created image
    * @param newHeight  new height of the created image
    * @param formatName a String containing the informal name of the format
+   *
    * @return
+   *
    * @throws IOException if an error occurs during writing
    */
   public static byte[] toBytes(InputStream input, int newWidth, int newHeight, String formatName) throws IOException {
-    try (ByteArrayOutputStream output = new ByteArrayOutputStream()) {
-      BufferedImage im = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
-      Graphics graphics = im.createGraphics();
+    try (ByteArrayOutputStream outputSteam = new ByteArrayOutputStream()) {
+      BufferedImage image = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
+      Graphics graphics = image.createGraphics();
       graphics.drawImage(toBufferedImage(input), 0, 0, newWidth, newHeight, null);
-      ImageIO.write(im, formatName, output);
+      ImageIO.write(image, formatName, outputSteam);
 
-      return output.toByteArray();
+      return outputSteam.toByteArray();
     }
+  }
+
+  private ImageUtil() {
   }
 }

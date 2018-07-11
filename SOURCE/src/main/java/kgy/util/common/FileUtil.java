@@ -7,13 +7,18 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 /**
  * File Util
  *
  * @author KistoryG
- * @build 2018-7-5 17:01:33
+ * @build 2018-7-11 09:21:32
  */
 public class FileUtil {
 
@@ -3733,7 +3738,7 @@ public class FileUtil {
    * @param str
    * @param pathname
    */
-  public static void writeToFile(String str, String pathname) {
+  public static void writeToFileByBufferedOutputStream(String str, String pathname) {
     try {
       File file = new File(pathname);
       getDictionary(file).mkdirs();
@@ -3745,6 +3750,29 @@ public class FileUtil {
     } catch (IOException ioe) {
       throw new RuntimeException(ioe);
     }
+  }
+
+  public static void writeToFileByFiles(String str, String pathname, String charsetName) {
+    try {
+      File file = new File(pathname);
+      getDictionary(file).mkdirs();
+
+      Path path = Paths.get(pathname);
+      if (null == charsetName) {
+        Files.write(path, str.getBytes());
+      } else {
+        ArrayList<String> lines = new ArrayList<>(1);
+        lines.add(str);
+
+        Files.write(path, lines, Charset.forName(charsetName));
+      }
+    } catch (IOException ioe) {
+      throw new RuntimeException(ioe);
+    }
+  }
+
+  public static void writeToFileByFiles(String str, String pathname) {
+    writeToFileByFiles(str, pathname, null);
   }
 
   protected FileUtil() {

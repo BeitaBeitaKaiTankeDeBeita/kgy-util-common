@@ -7,8 +7,7 @@ import java.util.logging.Logger;
 /**
  * 属性文件工具类
  *
- * @author Kistory
- * @build 2016-4-22 13:49:37
+ * @author KistoryG
  */
 public class PropertiesUtil {
 
@@ -32,6 +31,11 @@ public class PropertiesUtil {
   public static Object get(Object key) {
     Properties properties = load();
     return properties.get(key);
+  }
+
+  public static String getProperty(String key) {
+    Properties properties = load();
+    return properties.getProperty(key);
   }
 
   private PropertiesUtil() {

@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 /**
  * 日期时间工具类
@@ -17,6 +18,14 @@ public class DatetimeUtil {
   public static final String ZH_CN = "zh-CN";
   public static final String QUARTER_OF_YEAR = "QUARTER_OF_YEAR";
   public static final String MONTH_OF_YEAR = "MONTH_OF_YEAR";
+
+  public static boolean isDate(String source) {
+    return Pattern.matches("^\\d{1,4}-\\d{2}-\\d{2}$", source);
+  }
+
+  public static boolean isDateTime(String source) {
+    return Pattern.matches("^\\d{1,4}-\\d{2}-\\d{2}\\s{1}\\d{2}\\:\\d{2}\\:\\d{2}$", source);
+  }
 
   public static String format(Date date, String pattern) {
     return new SimpleDateFormat(pattern).format(date);
@@ -640,8 +649,8 @@ public class DatetimeUtil {
 
   /**
    *
-   * @param beginDate 开始时间
-   * @param endDate 结束时间
+   * @param beginDate      开始时间
+   * @param endDate        结束时间
    * @param matchDatePairs 匹配开始/结束时间对
    *
    * @return
@@ -686,8 +695,8 @@ public class DatetimeUtil {
 
   /**
    *
-   * @param beginDate 开始时间
-   * @param endDate 结束时间
+   * @param beginDate      开始时间
+   * @param endDate        结束时间
    * @param matchDatePairs 匹配开始/结束时间对
    * @param dayToHourRates 天转换到时比例
    *

@@ -25,4 +25,6 @@
 /SOURCE/.nb-gradle/
 
 ### KGY ###
+/SOURCE/nbactions.xml
 /SOURCE/src/test/
+/SOURCE/tomcat/

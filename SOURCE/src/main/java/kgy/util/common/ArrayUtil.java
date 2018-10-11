@@ -187,14 +187,56 @@ public class ArrayUtil {
     return mergeIntegerArray(ints, toIntegerArray(str));
   }
 
-  public static String toString(Object[] objs) {
+  public static String join(Object[] objs, String separator, boolean withBrackets) {
+    String separatorPlaceholder = "＾＿＾占位符＞＿＜";
     String str = "";
     for (Object obj : objs) {
+      str += separatorPlaceholder;
       if (null != obj) {
-        str += ", " + obj.toString();
+        str += obj.toString();
       }
     }
-    return str.replaceFirst(", ", "");
+    str = str.replaceFirst(separatorPlaceholder, "").replaceAll(separatorPlaceholder, separator);
+
+    if (withBrackets) {
+      str = "[" + str + "]";
+    }
+
+    return str;
+  }
+
+  public static String join(Object[] objs) {
+    return join(objs, ", ", false);
+  }
+
+  public static String join(List<Object[]> objsList, String separator, boolean withBrackets) {
+    String separatorPlaceholder = "＾＿＾占位符＞＿＜";
+    String str = "";
+    for (Object[] objs : objsList) {
+      str += separatorPlaceholder;
+      if (null != objs) {
+        str += join(objs, separator, withBrackets);
+      }
+    }
+    str = str.replaceFirst(separatorPlaceholder, "").replaceAll(separatorPlaceholder, separator);
+
+    if (withBrackets) {
+      str = "[" + str + "]";
+    }
+
+    return str;
+  }
+
+  /**
+   *
+   * @param objs
+   *
+   * @return
+   *
+   * @deprecated
+   */
+  public static String toString(Object[] objs) {
+    return join(objs, ", ", false);
   }
 
   /**

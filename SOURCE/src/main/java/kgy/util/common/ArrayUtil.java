@@ -209,6 +209,16 @@ public class ArrayUtil {
     return join(objs, ", ", false);
   }
 
+  /**
+   *
+   * @param objsList
+   * @param separator
+   * @param withBrackets
+   *
+   * @return
+   *
+   * @deprecated
+   */
   public static String join(List<Object[]> objsList, String separator, boolean withBrackets) {
     String separatorPlaceholder = "＾＿＾占位符＞＿＜";
     String str = "";
@@ -225,18 +235,6 @@ public class ArrayUtil {
     }
 
     return str;
-  }
-
-  /**
-   *
-   * @param objs
-   *
-   * @return
-   *
-   * @deprecated
-   */
-  public static String toString(Object[] objs) {
-    return join(objs, ", ", false);
   }
 
   /**

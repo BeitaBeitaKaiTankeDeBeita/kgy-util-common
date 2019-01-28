@@ -7,59 +7,68 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Log Util
+ * Log 工具类
  *
  * @author KistoryG
- * @build 2018/5/10 21:08:52
  */
 public class LogUtil {
 
-  private static final Logger LOG = Logger.getLogger(LogUtil.class.getName());
+    private static final Logger LOG = Logger.getLogger(LogUtil.class.getName());
 
-  /**
-   *
-   * @param log
-   * @param paramName
-   * @param paramValue
-   *
-   * @deprecated
-   */
-  public static void info(Logger log, String paramName, Object paramValue) {
+    /**
+     *
+     * @param log
+     * @param paramName
+     * @param paramValue
+     *
+     * @deprecated
+     */
+    public static void info(Logger log, String paramName, Object paramValue) {
 
-    try {
-      ConsoleHandler consoleHandler = new ConsoleHandler();
-      consoleHandler.setLevel(Level.ALL);
-      log.addHandler(consoleHandler);
+        try {
+            ConsoleHandler consoleHandler = new ConsoleHandler();
+            consoleHandler.setLevel(Level.ALL);
+            log.addHandler(consoleHandler);
 
-      FileHandler fileHandler = new FileHandler("E:/testlog%g.log");
-      fileHandler.setLevel(Level.INFO);
+            FileHandler fileHandler = new FileHandler("E:/testlog%g.log");
+            fileHandler.setLevel(Level.INFO);
 //    fileHandler.setFormatter();
-      log.addHandler(fileHandler);
+            log.addHandler(fileHandler);
 
-      LOG.log(Level.INFO, "【{0}: {1}】", new Object[]{paramName, paramValue});
-      log.log(Level.INFO, "【{0}: {1}】", new Object[]{paramName, paramValue});
-    } catch (IOException | SecurityException e) {
-      LOG.log(Level.SEVERE, null, e);
+            LOG.log(Level.INFO, "【{0}: {1}】", new Object[]{paramName, paramValue});
+            log.log(Level.INFO, "【{0}: {1}】", new Object[]{paramName, paramValue});
+        } catch (IOException | SecurityException e) {
+            LOG.log(Level.SEVERE, null, e);
+        }
     }
-  }
 
-  public static void printStackTrace(Logger log, Level level, Exception e) {
-    printStackTrace(log, level, e, 16);
-  }
-
-  public static void printStackTrace(Logger log, Level level, Exception e, int lines) {
-    log.log(level, e.toString());
-    StackTraceElement[] stackTraceElements = e.getStackTrace();
-
-    for (int i = 0; i < stackTraceElements.length; i++) {
-      if (i < lines) {
-        log.log(level, "  at {0}", stackTraceElements[i].toString());
-      } else if (i == lines) {
-        log.log(level, "  ...");
-      }
+    /**
+     *
+     * @param log
+     * @param level One of the message level identifiers, e.g., SEVERE
+     * @param msg The string message (or a key in the message catalog)
+     */
+    public static void log(Logger log, Level level, String msg) {
+        log.log(level, msg);
     }
-  }
 
-  private LogUtil() {
-  }
+    public static void printStackTrace(Logger log, Level level, Exception e, int lines) {
+        log.log(level, e.toString());
+        StackTraceElement[] stackTraceElements = e.getStackTrace();
+
+        for (int i = 0; i < stackTraceElements.length; i++) {
+            if (i < lines) {
+                log.log(level, "    at {0}", stackTraceElements[i].toString());
+            } else if (i == lines) {
+                log.log(level, "  ...");
+            }
+        }
+    }
+
+    public static void printStackTrace(Logger log, Level level, Exception e) {
+        printStackTrace(log, level, e, 16);
+    }
+
+    private LogUtil() {
+    }
 }

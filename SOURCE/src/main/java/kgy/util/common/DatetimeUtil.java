@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 /**
  * 日期时间工具类
  *
- * @author Kistory
+ * @author KistoryG
  */
 public class DatetimeUtil {
 
@@ -234,8 +234,19 @@ public class DatetimeUtil {
     return null;
   }
 
+  /**
+   * @param dateStr
+   * @param fieldAndAmounts
+   * @return
+
+   * @deprecated
+   */
   public static Date add(String dateStr, int... fieldAndAmounts) {
     return add(parse(dateStr, "yyyy-MM-dd"), fieldAndAmounts);
+  }
+
+  public static String add(String source, String pattern, int... fieldAndAmounts) {
+    return format(add(parse(source, pattern), fieldAndAmounts), pattern);
   }
 
   /**
@@ -452,7 +463,6 @@ public class DatetimeUtil {
   }
 
   /**
-   *
    * @param year
    * @param weekOfYear
    * @param firstDayOfWeek
@@ -649,8 +659,8 @@ public class DatetimeUtil {
 
   /**
    *
-   * @param beginDate      开始时间
-   * @param endDate        结束时间
+   * @param beginDate 开始时间
+   * @param endDate 结束时间
    * @param matchDatePairs 匹配开始/结束时间对
    *
    * @return
@@ -695,8 +705,8 @@ public class DatetimeUtil {
 
   /**
    *
-   * @param beginDate      开始时间
-   * @param endDate        结束时间
+   * @param beginDate 开始时间
+   * @param endDate 结束时间
    * @param matchDatePairs 匹配开始/结束时间对
    * @param dayToHourRates 天转换到时比例
    *

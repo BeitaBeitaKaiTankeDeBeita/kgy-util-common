@@ -7,28 +7,28 @@ package kgy.util.common;
  */
 public class IterableUtil {
 
-  public static String join(Iterable<?> iterable, String separator, boolean withBrackets) {
-    String separatorPlaceholder = "＾＿＾占位符＞＿＜";
-    String str = "";
-    for (Object obj : iterable) {
-      str += separatorPlaceholder;
-      if (null != obj) {
-        str += obj.toString();
-      }
+    public static String join(Iterable<?> iterable, String separator, boolean withBrackets) {
+        String separatorPlaceholder = "＾＿＾占位符＞＿＜";
+        String str = "";
+        for (Object obj : iterable) {
+            str += separatorPlaceholder;
+            if (null != obj) {
+                str += obj.toString();
+            }
+        }
+        str = str.replaceFirst(separatorPlaceholder, "").replaceAll(separatorPlaceholder, separator);
+
+        if (withBrackets) {
+            str = "[" + str + "]";
+        }
+
+        return str;
     }
-    str = str.replaceFirst(separatorPlaceholder, "").replaceAll(separatorPlaceholder, separator);
 
-    if (withBrackets) {
-      str = "[" + str + "]";
+    public static String join(Iterable<?> iterable, String separator) {
+        return join(iterable, separator, false);
     }
 
-    return str;
-  }
-
-  public static String join(Iterable<?> iterable, String separator) {
-    return join(iterable, separator, false);
-  }
-
-  private IterableUtil() {
-  }
+    private IterableUtil() {
+    }
 }

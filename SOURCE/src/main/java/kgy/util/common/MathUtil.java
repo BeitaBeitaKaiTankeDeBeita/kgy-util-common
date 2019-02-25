@@ -32,10 +32,10 @@ public class MathUtil {
     return lcm;
   }
 
-  public static Object calculate(String script, Map<String, Object> m) {
+  public static Number calculate(String script, Map<String, Object> m) {
     try {
       ScriptEngine scriptEngine = new ScriptEngineManager().getEngineByName("JavaScript");
-      return scriptEngine.eval(script, new SimpleBindings(m));
+      return (Number) scriptEngine.eval(script, new SimpleBindings(m));
     } catch (ScriptException se) {
       throw new RuntimeException(se);
     }

@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 /**
@@ -14,6 +16,8 @@ import java.util.regex.Pattern;
  * @author KistoryG
  */
 public class DatetimeUtil {
+
+  private static final Logger LOG = Logger.getLogger(DatetimeUtil.class.getName());
 
   public static final String ZH_CN = "zh-CN";
   public static final String QUARTER_OF_YEAR = "QUARTER_OF_YEAR";
@@ -69,7 +73,7 @@ public class DatetimeUtil {
         return new SimpleDateFormat(pattern).parse(source);
       }
     } catch (ParseException e) {
-      // 忽略
+      LogUtil.printStackTrace(LOG, Level.WARNING, e);
     }
 
     return null;
@@ -238,7 +242,7 @@ public class DatetimeUtil {
    * @param dateStr
    * @param fieldAndAmounts
    * @return
-
+   *
    * @deprecated
    */
   public static Date add(String dateStr, int... fieldAndAmounts) {

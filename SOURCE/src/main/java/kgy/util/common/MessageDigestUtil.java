@@ -8,33 +8,35 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * 消息摘要工具类
+ * 消息摘要 工具类
  *
  * @author KistoryG
- * @version 0.0.2
- * @build 2017-7-1 00:27:07
  */
 public class MessageDigestUtil {
 
   @SuppressWarnings("empty-statement")
   public static String get(String algorithm, Object obj) {
     try {
-      MessageDigest messageDigest = MessageDigest.getInstance(algorithm);
+      if (null != obj) {
+        MessageDigest messageDigest = MessageDigest.getInstance(algorithm);
 
-      if (obj instanceof File) {
-        try (FileInputStream fileInputStream = new FileInputStream((File) obj); DigestInputStream digestInputStream = new DigestInputStream(fileInputStream, messageDigest)) {
+        if (obj instanceof File) {
+          try (FileInputStream fileInputStream = new FileInputStream((File) obj); DigestInputStream digestInputStream = new DigestInputStream(fileInputStream, messageDigest)) {
+            byte[] bytes = new byte[1024 ^ 2];
+            while (digestInputStream.read(bytes) > 0);
 
-          byte[] bytes = new byte[1024 ^ 2];
-          while (digestInputStream.read(bytes) > 0);
-
-          return bytes2HEX(digestInputStream.getMessageDigest().digest());
+            return bytes2HEX(digestInputStream.getMessageDigest().digest());
+          }
+        } else if (obj instanceof byte[]) {
+          messageDigest.update((byte[]) obj);
+          return bytes2HEX(messageDigest.digest());
+        } else {
+          messageDigest.update(obj.toString().getBytes());
+          return bytes2HEX(messageDigest.digest());
         }
-
       } else {
-        messageDigest.update(obj.toString().getBytes());
-        return bytes2HEX(messageDigest.digest());
+        return "";
       }
-
     } catch (NoSuchAlgorithmException | IOException e) {
       throw new RuntimeException(e);
     }

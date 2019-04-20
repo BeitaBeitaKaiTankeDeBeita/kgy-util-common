@@ -1,9 +1,11 @@
 package kgy.util.common;
 
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
- * String工具
+ * 字符串 工具类
  *
  * @author KistoryG
  */
@@ -18,6 +20,14 @@ public class StringUtil {
       count++;
     }
     return count;
+  }
+
+  public static String getFirstMatcher(String content, String regex) {
+    Matcher matcher = Pattern.compile(regex).matcher(content);
+    while (matcher.find()) {
+      return matcher.group(0);
+    }
+    return "";
   }
 
   public static String[] split(String src, Integer splitSize) {

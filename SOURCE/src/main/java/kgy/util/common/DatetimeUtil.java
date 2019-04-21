@@ -241,6 +241,7 @@ public class DatetimeUtil {
   /**
    * @param dateStr
    * @param fieldAndAmounts
+   *
    * @return
    *
    * @deprecated
@@ -512,6 +513,10 @@ public class DatetimeUtil {
     return ignoreTime(add(now, Calendar.YEAR, -age));
   }
 
+  public static String secondToHourMinuteSecond(int second) {
+    return NumericUtil.format(second / 3600, "00") + ":" + NumericUtil.format(second % 3600 / 60, "00") + ":" + NumericUtil.format(second % 60, "00");
+  }
+
   /**
    *
    * @param beginDate
@@ -663,8 +668,8 @@ public class DatetimeUtil {
 
   /**
    *
-   * @param beginDate 开始时间
-   * @param endDate 结束时间
+   * @param beginDate      开始时间
+   * @param endDate        结束时间
    * @param matchDatePairs 匹配开始/结束时间对
    *
    * @return
@@ -709,8 +714,8 @@ public class DatetimeUtil {
 
   /**
    *
-   * @param beginDate 开始时间
-   * @param endDate 结束时间
+   * @param beginDate      开始时间
+   * @param endDate        结束时间
    * @param matchDatePairs 匹配开始/结束时间对
    * @param dayToHourRates 天转换到时比例
    *

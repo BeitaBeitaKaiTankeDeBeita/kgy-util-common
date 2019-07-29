@@ -35,10 +35,18 @@ public class MathUtil {
   public static Number calculate(String script, Map<String, Object> m) {
     try {
       ScriptEngine scriptEngine = new ScriptEngineManager().getEngineByName("JavaScript");
-      return (Number) scriptEngine.eval(script, new SimpleBindings(m));
+
+      if (null != m) {
+        return (Number) scriptEngine.eval(script, new SimpleBindings(m));
+      }
+      return (Number) scriptEngine.eval(script);
     } catch (ScriptException se) {
       throw new RuntimeException(se);
     }
+  }
+
+  public static Number calculate(String script) {
+    return calculate(script, null);
   }
 
   private MathUtil() {

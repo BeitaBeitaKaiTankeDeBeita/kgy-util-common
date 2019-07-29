@@ -2,6 +2,8 @@ package kgy.util.common;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class 工具类
@@ -10,6 +12,8 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class ClassUtil {
 
+  private static final Logger LOG = Logger.getLogger(ClassUtil.class.getName());
+
   public static Object get(Object obj, String name) {
     try {
       try {
@@ -17,11 +21,11 @@ public class ClassUtil {
         field.setAccessible(true);
         return field.get(obj);
       } catch (IllegalAccessException iae) {
-        // Ignore
+        LogUtil.log(LOG, Level.WARNING, iae.toString());
         return null;
       }
     } catch (NoSuchFieldException nsfe) {
-      // Ignore
+      LogUtil.log(LOG, Level.WARNING, nsfe.toString());
       return null;
     }
   }

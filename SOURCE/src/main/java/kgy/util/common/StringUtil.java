@@ -159,9 +159,8 @@ public class StringUtil {
         str = str.substring(0, str.length() - 1);
       }
 
-      return str;
+      return str.replaceAll("_._", "_");
     } else {
-
       return src.toUpperCase();
     }
   }
@@ -225,9 +224,8 @@ public class StringUtil {
         str = str.substring(0, str.length() - 1);
       }
 
-      return str;
+      return str.replaceAll("-.-", "-");
     } else {
-
       return src.toUpperCase();
     }
   }

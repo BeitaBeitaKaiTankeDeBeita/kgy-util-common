@@ -110,6 +110,9 @@ public class ImageUtil {
   public static BufferedImage drawImage(BufferedImage source, BufferedImage img, int x, int y, Map<String, Object> settings) throws IOException {
     Graphics2D graphics2D = source.createGraphics();
 
+    // 抗锯齿 - 使用抗锯齿来实现渲染。
+    graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
     // border-radius
     if (null != settings && settings.containsKey("border-radius")) {
       img = ImageUtil.roundImage(img, (int) settings.get("border-radius"));
@@ -119,6 +122,9 @@ public class ImageUtil {
       BufferedImage target = new BufferedImage(source.getWidth(), source.getHeight() + img.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
       Graphics2D targetGraphics2D = target.createGraphics();
+
+      // 抗锯齿 - 使用抗锯齿来实现渲染。
+      targetGraphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
       targetGraphics2D.drawImage(source, 0, 0, null);
 
@@ -431,14 +437,16 @@ public class ImageUtil {
    * @throws IOException
    */
   public static BufferedImage scale(BufferedImage source, int width, int height, String positionX, String positionY, String size) throws IOException {
-    int targetWidth, targetHeight;
-    int x = 0, y = 0;
+    int targetWidth = width, targetHeight = height;
     int sourceWidth = source.getWidth();
     int sourceHeight = source.getHeight();
+    if (targetWidth == sourceWidth && targetHeight == sourceHeight) {
+      return source;
+    }
 
+    int x = 0, y = 0;
     if (positionX.equals(SCALE_POSITION_CENTER) && positionY.equals(SCALE_POSITION_CENTER) && size.equals(SCALE_SIZE_COVER)) {
       if ((double) width / height >= (double) sourceWidth / sourceHeight) {
-        targetWidth = width;
         targetHeight = new BigDecimal(sourceHeight).multiply(new BigDecimal(width)).divide(new BigDecimal(sourceWidth), RoundingMode.CEILING).intValue();
 
         if (targetHeight > height) {
@@ -446,7 +454,6 @@ public class ImageUtil {
         }
       } else {
         targetWidth = new BigDecimal(sourceWidth).multiply(new BigDecimal(height)).divide(new BigDecimal(sourceHeight), RoundingMode.CEILING).intValue();
-        targetHeight = height;
 
         if (targetWidth > width) {
           x = -(targetWidth - width) / 2;
@@ -456,9 +463,13 @@ public class ImageUtil {
       throw new UnsupportedOperationException(positionX + ", " + positionY + ", " + size);
     }
 
-    BufferedImage target = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-    Graphics graphics = target.createGraphics();
-    graphics.drawImage(source, x, y, targetWidth, targetHeight, null);
+    BufferedImage target = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+    Graphics2D graphics2D = target.createGraphics();
+
+    // 抗锯齿 - 使用抗锯齿来实现渲染。
+    graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+    graphics2D.drawImage(source, x, y, targetWidth, targetHeight, null);
 
     return target;
   }

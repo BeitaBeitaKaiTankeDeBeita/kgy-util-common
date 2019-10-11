@@ -28,8 +28,8 @@ public class TestImageUtil {
 //      "http://dev.sdnicsoft.com/red.png"
 //    };
 //    String[] huiyiShipins = {
-//      "http://dev.sdnicsoft.com/red.png",
-//      "http://dev.sdnicsoft.com/green.png"
+//      "http://dev.sdnicsoft.com/4.3.png",
+//      "http://dev.sdnicsoft.com/4.3.png"
 //    };
 //    String huiyiZongjie = "在“七一”来临之际，全镇各党支部纷纷重温入党誓词。在机关党支部主题党日活动现场，由四名青年党员托举党旗入场，机关党支部书记石文韬带领全体党员面向党旗宣誓，大家紧握右拳、庄严肃立，面向党旗立下铿锵誓言。";
 //
@@ -344,7 +344,7 @@ public class TestImageUtil {
 //              ImageUtil.scale(ImageIO.read((File) HttpUtil.get(huiyiShipins[i]).getContent()), (375 - 15 * 4 - 15) / 2 * 2, (int) ((375d - 15 * 4 - 15) / 2 * 16 / 9 * 2), ImageUtil.SCALE_POSITION_CENTER, ImageUtil.SCALE_POSITION_CENTER, ImageUtil.SCALE_SIZE_COVER), 15 * 2 * 2, (int) 7.5 * 2, new HashMap<String, Object>() {
 //            {
 //              put("border-radius", 6 * 2 * 2);
-//              put("grow", ImageIO.read(new File("D:/新建文件夹/theme/" + type + "/" + theme + "/4.3.jpg")));
+//              put("grow", ImageIO.read(new File("D:/新建文件夹/theme/" + type + "/" + theme + "/4.4.jpg")));
 //            }
 //          });
 //        } else {
@@ -352,12 +352,12 @@ public class TestImageUtil {
 //              ImageUtil.scale(ImageIO.read((File) HttpUtil.get(huiyiShipins[i]).getContent()), (375 - 15 * 4 - 15) / 2 * 2, (int) ((375d - 15 * 4 - 15) / 2 * 16 / 9 * 2), ImageUtil.SCALE_POSITION_CENTER, ImageUtil.SCALE_POSITION_CENTER, ImageUtil.SCALE_SIZE_COVER), ((375 - 15 * 4 - 15) / 2 + 15 * 3) * 2, (int) 7.5 * 2, new HashMap<String, Object>() {
 //            {
 //              put("border-radius", 6 * 2 * 2);
-//              put("grow", ImageIO.read(new File("D:/新建文件夹/theme/" + type + "/" + theme + "/4.3.jpg")));
+//              put("grow", ImageIO.read(new File("D:/新建文件夹/theme/" + type + "/" + theme + "/4.4.jpg")));
 //            }
 //          });
 //        }
 //      }
-//      target4Parts[target4Parts.length - 1] = ImageIO.read(new File("D:/新建文件夹/theme/" + type + "/" + theme + "/4.4.jpg"));
+//      target4Parts[target4Parts.length - 1] = ImageIO.read(new File("D:/新建文件夹/theme/" + type + "/" + theme + "/4.5.jpg"));
 //
 //      for (BufferedImage target4Part : target4Parts) {
 //        if (null == target4) {

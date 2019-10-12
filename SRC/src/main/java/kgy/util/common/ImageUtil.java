@@ -14,6 +14,7 @@ import java.awt.Shape;
 import java.awt.Transparency;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +30,7 @@ import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
 
 /**
  * 图片 工具类
@@ -420,6 +422,14 @@ public class ImageUtil {
       ImageIO.write(im, formatName, output);
       return output.toByteArray();
     }
+  }
+
+  public static InputStream toInputStream(BufferedImage source, String formatName) throws IOException {
+    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+    ImageOutputStream imageOutput = ImageIO.createImageOutputStream(byteArrayOutputStream);
+    ImageIO.write(source, formatName, imageOutput);
+
+    return new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
   }
 
   /**

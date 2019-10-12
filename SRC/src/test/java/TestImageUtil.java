@@ -1,4 +1,6 @@
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class TestImageUtil {
@@ -366,6 +368,7 @@ public class TestImageUtil {
 //          target4 = ImageUtil.drawImage(target4, target4Part, 0, target4.getHeight());
 //        }
 //      }
+//      ImageIO.write(target4, "png", new File("D:/新建文件夹/theme/" + type + "/" + theme + "/tar.4.png"));
 //    }
 //
 //    /**
@@ -409,5 +412,32 @@ public class TestImageUtil {
 //    target = ImageUtil.drawImage(target, target5, 0, target.getHeight());
 //
 //    ImageIO.write(target, "png", new File("D:/新建文件夹/theme/" + type + "/" + theme + "/tar.png"));
+//
+//
+//
+//    ImageIO.write(ImageUtil.drawImage(ImageIO.read(new File("D:\\新建文件夹\\theme\\2\\3\\4.2.jpg")),
+//        ImageUtil.scale(
+//            ImageIO.read(new File("D:\\新建文件夹\\theme\\2\\3\\4.3.png")),
+//            (375 - 15 * 4 - 15) / 2 * 2, (int) ((375d - 15 * 4 - 15) / 2 * 16 / 9 * 2), ImageUtil.SCALE_POSITION_CENTER, ImageUtil.SCALE_POSITION_CENTER, ImageUtil.SCALE_SIZE_COVER),
+//        15 * 2 * 2, (int) 7.5 * 2, new HashMap<String, Object>() {
+//      {
+//        put("border-radius", 6 * 2 * 2);
+//        put("grow", ImageIO.read(new File("D:/新建文件夹/theme/2/3/4.4.jpg")));
+//      }
+//    }), "png", new File("D:\\新建文件夹\\theme\\2\\3\\tar.4.3.1.png"));
+//
+//    ImageIO.write(drawImage(ImageIO.read(new File("D:\\新建文件夹\\theme\\2\\3\\4.3.png"))), "png", new File("D:\\新建文件夹\\theme\\2\\3\\tar.4.3.2.png"));
+  }
+
+  public static BufferedImage drawImage(BufferedImage source) throws IOException {
+    BufferedImage target = new BufferedImage(source.getWidth() * 2, source.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+    Graphics2D graphics2D = target.createGraphics();
+
+    graphics2D.drawImage(source, 0, 0, null);
+
+    graphics2D.dispose();
+
+    return target;
   }
 }

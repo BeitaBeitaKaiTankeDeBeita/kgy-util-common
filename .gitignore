@@ -1,22 +1,23 @@
-/SRC/HELP.md
-/SRC/target/
-!**/src/main/**
-!**/src/test/**
+SRC/HELP.md
+SRC/target/
+!SRC/.mvn/wrapper/maven-wrapper.jar
+!SRC/**/src/main/**
+!SRC/**/src/test/**
 
 ### STS ###
-/SRC/.apt_generated
-/SRC/.classpath
-/SRC/.factorypath
-/SRC/.project
-/SRC/.settings
-/SRC/.springBeans
-/SRC/.sts4-cache
+SRC/.apt_generated
+SRC/.classpath
+SRC/.factorypath
+SRC/.project
+SRC/.settings
+SRC/.springBeans
+SRC/.sts4-cache
 
 ### IntelliJ IDEA ###
-/SRC/.idea
-/SRC/*.iws
-/SRC/*.iml
-/SRC/*.ipr
+SRC/.idea
+SRC/*.iws
+SRC/*.iml
+SRC/*.ipr
 
 ### NetBeans ###
 /SRC/nbproject/private/
@@ -24,12 +25,16 @@
 /SRC/dist/
 /SRC/nbdist/
 /SRC/.nb-gradle/
-/SRC/build/
+SRC/build/
 
 ### VS Code ###
-/SRC/.vscode/
+SRC/.vscode/
 
 ### KGY ###
+/SRC/.gradle
+/SRC/gradle
 /SRC/nbactions.xml
+/SRC/nb-configuration.xml
+/SRC/src/main/resources/META-INF
 /SRC/tomcat/
 /SRC/unpackage/dist/

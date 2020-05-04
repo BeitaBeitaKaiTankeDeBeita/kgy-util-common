@@ -61,7 +61,6 @@ public class ReflectionUtil {
         pathname += fileSeparator;
       }
       String filePath = file.getPath();
-      System.out.println("filePath: " + filePath);
 
       if (file.isDirectory()) {
         if (null != packages) {

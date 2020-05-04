@@ -15,16 +15,20 @@ public class ReflectionUtil {
 //    return classes;
 //  }
 
-  public static List<Class<?>> getAllClassByPackagesAndNotPackagesAndAnnotation(String pathname, String[] packages, String[] notPackages, Class<? extends Annotation> annotation) {
+  public static List<Class<?>> getAllClassByPackagesAndNotPackagesAndAnnotation(
+      String pathname, String[] packages, String[] notPackages, Class<? extends Annotation> annotation) {
     String fileSeparator = System.getProperty("file.separator");
 
-    return recursionAllClassByPackageAndAnnotation(fileSeparator, new ArrayList<Class<?>>(), pathname, new File(pathname), packages, notPackages, annotation);
+    return recursionAllClassByPackageAndAnnotation(
+        fileSeparator, new ArrayList<>(), pathname, new File(pathname), packages, notPackages, annotation);
   }
 
-  public static List<Class<?>> getAllClassByNotPackagesAndAnnotation(String pathname, String[] notPackages, Class<? extends Annotation> annotation) {
+  public static List<Class<?>> getAllClassByNotPackagesAndAnnotation(
+      String pathname, String[] notPackages, Class<? extends Annotation> annotation) {
     String fileSeparator = System.getProperty("file.separator");
 
-    return recursionAllClassByPackageAndAnnotation(fileSeparator, new ArrayList<Class<?>>(), pathname, new File(pathname), null, notPackages, annotation);
+    return recursionAllClassByPackageAndAnnotation(
+        fileSeparator, new ArrayList<>(), pathname, new File(pathname), null, notPackages, annotation);
   }
 
   public static List<Field> getAllProtectedOrPrivateNotStaticFields(Class<?> type) {
@@ -34,7 +38,8 @@ public class ReflectionUtil {
       List<Field> typeFields = new ArrayList<>();
       for (Field field : type.getDeclaredFields()) {
         int fieldModifiers = field.getModifiers();
-        if ((Modifier.isProtected(field.getModifiers()) || Modifier.isPrivate(field.getModifiers())) && !Modifier.isStatic(fieldModifiers)) {
+        if ((Modifier.isProtected(field.getModifiers()) || Modifier.isPrivate(field.getModifiers())) &&
+            !Modifier.isStatic(fieldModifiers)) {
           typeFields.add(field);
         }
       }
@@ -48,9 +53,15 @@ public class ReflectionUtil {
     return fields;
   }
 
-  private static List<Class<?>> recursionAllClassByPackageAndAnnotation(String fileSeparator, List<Class<?>> classes, String pathname, File file, String[] packages, String[] notPackages, Class<? extends Annotation> annotation) {
+  private static List<Class<?>> recursionAllClassByPackageAndAnnotation(
+      String fileSeparator, List<Class<?>> classes, String pathname, File file, String[] packages, String[] notPackages,
+      Class<? extends Annotation> annotation) {
     try {
+      if (!pathname.endsWith(fileSeparator)) {
+        pathname += fileSeparator;
+      }
       String filePath = file.getPath();
+      System.out.println("filePath: " + filePath);
 
       if (file.isDirectory()) {
         if (null != packages) {
@@ -65,7 +76,8 @@ public class ReflectionUtil {
 
           if (included) {
             for (File myFile : file.listFiles()) {
-              recursionAllClassByPackageAndAnnotation(fileSeparator, classes, pathname, myFile, packages, notPackages, annotation);
+              recursionAllClassByPackageAndAnnotation(
+                  fileSeparator, classes, pathname, myFile, packages, notPackages, annotation);
             }
           }
         } else if (null != notPackages) {
@@ -80,18 +92,24 @@ public class ReflectionUtil {
 
           if (!excluded) {
             for (File myFile : file.listFiles()) {
-              recursionAllClassByPackageAndAnnotation(fileSeparator, classes, pathname, myFile, packages, notPackages, annotation);
+              recursionAllClassByPackageAndAnnotation(
+                  fileSeparator, classes, pathname, myFile, packages, notPackages, annotation);
             }
           }
         } else {
           for (File myFile : file.listFiles()) {
-            recursionAllClassByPackageAndAnnotation(fileSeparator, classes, pathname, myFile, packages, notPackages, annotation);
+            recursionAllClassByPackageAndAnnotation(
+                fileSeparator, classes, pathname, myFile, packages, notPackages, annotation);
           }
         }
       } else {
-        Class myClass = Class.forName(filePath.replaceAll(pathname.replace("\\", "\\\\") + "|\\.java|\\.class", "").replace(fileSeparator, "."));
-        if (null != myClass.getAnnotation(annotation)) {
-          classes.add(myClass);
+        if (filePath.endsWith(".class")) {
+          Class<?> myClass = Class.forName(filePath
+              .replaceAll(pathname.replace("\\", "\\\\") + "|\\.class", "")
+              .replace(fileSeparator, "."));
+          if (null != myClass.getAnnotation(annotation)) {
+            classes.add(myClass);
+          }
         }
       }
 
@@ -100,13 +118,4 @@ public class ReflectionUtil {
       throw new RuntimeException(e);
     }
   }
-
-//
-//  public Set<Class<?>> getFieldsAnnotatedWith(String prefix, Class<? extends Annotation> annotation) {
-//    return new Reflections(prefix).getf;
-//  }
-
-//  //FieldAnnotationsScanner
-//  Set<Field> ids =
-//      reflections.getFieldsAnnotatedWith(javax.persistence.Id.class);
 }

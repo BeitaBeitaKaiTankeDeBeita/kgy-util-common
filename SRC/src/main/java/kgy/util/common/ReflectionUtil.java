@@ -4,9 +4,7 @@ import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class ReflectionUtil {
 //  public static Set<Class<?>> getTypesAnnotatedWith(String prefix, Class<? extends Annotation> annotation) {
@@ -32,25 +30,26 @@ public class ReflectionUtil {
   }
 
   public static List<Field> getAllProtectedOrPrivateNotStaticFields(Class<?> type) {
-    List<Field> fields = new ArrayList<>();
+    return getAllFieldsByModifiers(type,
+        null,
+        new HashSet<Integer>() {{
+          add(Modifier.PROTECTED);
+          add(Modifier.PRIVATE);
+        }},
+        null,
+        new HashSet<Integer>() {{
+          add(Modifier.STATIC);
+        }});
+  }
 
-    while (null != type) {
-      List<Field> typeFields = new ArrayList<>();
-      for (Field field : type.getDeclaredFields()) {
-        int fieldModifiers = field.getModifiers();
-        if ((Modifier.isProtected(field.getModifiers()) || Modifier.isPrivate(field.getModifiers())) &&
-            !Modifier.isStatic(fieldModifiers)) {
-          typeFields.add(field);
-        }
-      }
-
-      Collections.reverse(typeFields);
-      fields.addAll(typeFields);
-      type = type.getSuperclass();
-    }
-
-    Collections.reverse(fields);
-    return fields;
+  public static List<Field> getAllPublicStaticFinalFields(Class<?> type) {
+    return getAllFieldsByModifiers(type,
+        new HashSet<Integer>() {{
+          add(Modifier.PUBLIC);
+          add(Modifier.STATIC);
+          add(Modifier.FINAL);
+        }},
+        null, null, null);
   }
 
   private static List<Class<?>> recursionAllClassByPackageAndAnnotation(
@@ -116,5 +115,79 @@ public class ReflectionUtil {
     } catch (ClassNotFoundException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  private static boolean elementOf(int modifier, int modifiers) {
+    return (modifiers & modifier) != 0;
+  }
+
+  private static List<Field> getAllFieldsByModifiers(Class<?> type, Collection<Integer> andIncludeModifiers, Collection<Integer> orIncludeModifiers, Collection<Integer> andExcludeModifiers, Collection<Integer> orExcludeModifiers) {
+    List<Field> fields = new ArrayList<>();
+    while (null != type) {
+      List<Field> typeFields = new ArrayList<>();
+      for (Field field : type.getDeclaredFields()) {
+        int fieldModifiers = field.getModifiers();
+
+        Boolean added = null;
+        if (null != andIncludeModifiers) {
+          if (fieldModifiers == 0) {
+            added = false;
+          } else {
+            added = true;
+            for (Integer andIncludeModifier : andIncludeModifiers) {
+              if (!elementOf(andIncludeModifier, fieldModifiers)) {
+                added = false;
+                break;
+              }
+            }
+          }
+        }
+        if (null != orIncludeModifiers) {
+          if (fieldModifiers == 0) {
+            added = false;
+          } else {
+            for (Integer orIncludeModifier : orIncludeModifiers) {
+              if (elementOf(orIncludeModifier, fieldModifiers)) {
+                added = true;
+                break;
+              } else {
+                added = false;
+              }
+            }
+          }
+        }
+        if (null != andExcludeModifiers) {
+          for (Integer andExcludeModifier : andExcludeModifiers) {
+            if (!elementOf(andExcludeModifier, fieldModifiers)) {
+              if (null == added) {
+                added = true;
+              }
+              break;
+            }
+          }
+        }
+        if (null != orExcludeModifiers) {
+          if (null == added) {
+            added = true;
+          }
+          for (Integer orExcludeModifier : orExcludeModifiers) {
+            if (elementOf(orExcludeModifier, fieldModifiers)) {
+              added = false;
+              break;
+            }
+          }
+        }
+        if (added) {
+          fields.add(field);
+        }
+      }
+
+      Collections.reverse(typeFields);
+      fields.addAll(typeFields);
+      type = type.getSuperclass();
+    }
+
+    Collections.reverse(fields);
+    return fields;
   }
 }

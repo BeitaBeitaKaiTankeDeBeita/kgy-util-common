@@ -2,6 +2,7 @@
 为避免重复造轮子, 现开源十几个常用的通用工具类.
 - 数组工具类 Array Util
 - Class 工具类 Class Util
+- 编解码工具类 Codec Util
 - 集合工具类 Collection Util
 - 日期时间工具类 Datetime Util
 - 调试工具类 Debug Util

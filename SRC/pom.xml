@@ -5,7 +5,7 @@
 
   <groupId>kgy.util</groupId>
   <artifactId>kgy-util-common</artifactId>
-  <version>25.0.3</version>
+  <version>26.0.4</version>
   <packaging>jar</packaging>
   <name>KGY Util Common</name>
 

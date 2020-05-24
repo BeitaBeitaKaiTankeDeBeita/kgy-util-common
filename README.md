@@ -6,7 +6,9 @@
 - 集合工具类 Collection Util
 - 日期时间工具类 Datetime Util
 - 调试工具类 Debug Util
+- 文件工具类 File Util
 - I/O 工具类 I/O Util
+- 图片工具类 Image Util
 - Iterable 工具类 Iterable Util
 - 日志工具类 Log Util
 - 数学工具类 Math Util
